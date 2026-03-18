@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Admin Template Wizard - Preview &amp; Publish</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5F2CFF",
+                        "nav-dark": "#1E2345",
+                        "background-light": "#ffffff",
+                        "background-dark": "#151d15",
+                        "ds-gray": "#F3F4F4",
+                        "ds-text": "#6D7283",
+                        "ds-logo": "#02F576",
+                        "sidebar-label": "#9EA1AE"
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body { font-family: 'Montserrat', sans-serif; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<header class="bg-nav-dark text-white px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-ds-logo rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-nav-dark font-bold" style="">polyline</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight" style="">Helio Canvas <span class="text-ds-logo font-medium text-sm ml-1" style="">2.0</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-semibold leading-none" style="">Admin User</p>
+<p class="text-[10px] text-white/60" style="">System Administrator</p>
+</div>
+<div class="size-9 rounded-full bg-slate-500 border-2 border-primary/50 overflow-hidden">
+<img alt="Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHoEdSMNBF1LnxQQaEfkz1lyoWT92GChgUBzdkj-LGC706wuseDXpqMweGetPfTi598KgX-GvmBDQxei-7FYLxa_2PB7obDZHW6ozrrvr2BbPmG-W3QO343I7_PPiGHFu-1jwOxGWeJQrBibPKWiJ47Ta2atiQxBOHrMM6J2Way_JivqL2iBFEihgCtAUFqqpT2o79DRCP6YUHo046xo6_bxAxQkv0Ra3nUeOsWYaNo0RG35nf1EegvYMITZiSzJcSfx0MPZ4Iceo" style="">
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-nav-dark border-r border-white/5 hidden md:flex flex-col">
+<nav class="flex-1 px-4 py-6 space-y-2">
+<div class="px-3 mb-4">
+<span class="text-[10px] font-medium tracking-widest text-sidebar-label uppercase" style="">ADMIN PANEL</span>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 text-white bg-primary/10 rounded-lg transition-colors relative" href="#" style="">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-primary rounded-r"></div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">content_paste</span>
+<span class="text-sm font-medium" style="">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="text-sm font-medium" style="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">domain</span>
+<span class="text-sm font-medium" style="">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">monitoring</span>
+<span class="text-sm font-medium" style="">Analytics and Audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">database</span>
+<span class="text-sm font-medium" style="">Master data management</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto bg-white">
+<div class="bg-white px-8 py-10 border-b border-slate-100">
+<div class="max-w-4xl mx-auto">
+<div class="flex items-center justify-between w-full relative">
+<div class="absolute top-4 left-0 w-full h-[1px] bg-primary z-0"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-[11px] font-semibold text-primary whitespace-nowrap" style="">1. General Info</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-[11px] font-semibold text-primary whitespace-nowrap" style="">2. Stage Config</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-[11px] font-semibold text-primary whitespace-nowrap" style="">3. Field and Sections</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-8 rounded-full bg-primary text-white flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-[11px] font-semibold text-primary whitespace-nowrap" style="">4. Scoring</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-8 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center mb-2">
+<span class="text-xs font-bold" style="">5</span>
+</div>
+<span class="text-[11px] font-bold text-primary whitespace-nowrap" style="">5. Publish</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-8 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-2xl font-bold" style="">Template Preview</h2>
+<span class="text-sm text-ds-text flex items-center gap-1" style="">
+<span class="material-symbols-outlined text-sm" style="">devices</span>
+                        Desktop View
+                    </span>
+</div>
+<div class="bg-ds-gray rounded-3xl overflow-hidden flex flex-col min-h-[600px]">
+<div class="bg-white/50 border-b border-slate-200 px-6 pt-6">
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-px">
+<div class="px-4 py-2 bg-white border-x border-t border-slate-200 rounded-t-lg text-sm font-bold text-primary" style="">Desirable</div>
+<div class="px-4 py-2 text-sm font-medium text-ds-text" style="">Feasible</div>
+<div class="px-4 py-2 text-sm font-medium text-ds-text" style="">Viable</div>
+<div class="px-4 py-2 text-sm font-medium text-ds-text" style="">Strategic</div>
+</div>
+</div>
+<div class="p-8 flex-1 bg-white">
+<div class="flex items-center gap-6 border-b border-slate-200 mb-8">
+<button class="px-1 py-3 border-b-2 border-primary text-sm font-bold text-primary tracking-wide" style="">BUSINESS OPPORTUNITY</button>
+<button class="px-1 py-3 border-b-2 border-transparent text-sm font-semibold text-slate-400 hover:text-slate-600 transition-colors tracking-wide" style="">DOMAIN RELEVANCE</button>
+</div>
+<div class="flex items-center gap-4 mb-10">
+<div class="h-2 flex-1 rounded-full bg-primary"></div>
+<div class="h-2 flex-1 rounded-full bg-slate-100"></div>
+<div class="h-2 flex-1 rounded-full bg-slate-100"></div>
+<div class="h-2 flex-1 rounded-full bg-slate-100"></div>
+</div>
+<div class="space-y-8">
+<div>
+<h3 class="text-xl font-bold mb-2" style="">Business Opportunity</h3>
+<p class="text-sm text-ds-text" style="">Provide the foundational information for this AI evaluation.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="md:col-span-2 space-y-2">
+<label class="text-xs font-bold uppercase text-ds-text" style="">Project Title</label>
+<div class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700" style="">
+                                        Predictive Maintenance Pilot v2
+                                    </div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase text-ds-text" style="">Industry Sector</label>
+<div class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 flex justify-between items-center" style="">
+                                        Manufacturing
+                                        <span class="material-symbols-outlined text-sm" style="">expand_more</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase text-ds-text" style="">Primary AI Type</label>
+<div class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 flex justify-between items-center" style="">
+                                        Predictive Analytics
+                                        <span class="material-symbols-outlined text-sm" style="">expand_more</span>
+</div>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="text-xs font-bold uppercase text-ds-text" style="">Success KPIs</label>
+<div class="flex flex-wrap gap-2 pt-1">
+<span class="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold" style="">Downtime reduction</span>
+<span class="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-full text-xs font-bold" style="">Maintenance cost</span>
+<span class="px-3 py-1.5 bg-slate-100 text-ds-text border border-slate-200 rounded-full text-xs font-bold flex items-center gap-1 cursor-pointer" style="">
+                                            Add KPI <span class="material-symbols-outlined text-sm" style="">add</span>
+</span>
+</div>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="text-xs font-bold uppercase text-ds-text" style="">Detailed Outline</label>
+<div class="w-full h-32 px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 italic" style="">
+                                        This project aims to implement ML-based monitoring for the central assembly line to predict sensor failures 48 hours in advance...
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4">
+<h2 class="text-2xl font-bold mb-4 invisible" style="">Summary</h2>
+<div class="bg-ds-gray rounded-3xl p-8 sticky top-24">
+<h3 class="text-xl font-bold mb-6" style="">Template Summary</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-start border-b border-slate-200 pb-4">
+<div>
+<p class="text-sm font-bold text-slate-800" style="">Stages Configured</p>
+<p class="text-xs text-ds-text mt-1" style="">Total evaluation stages</p>
+</div>
+<span class="text-lg font-bold text-primary" style="">4</span>
+</div>
+<div class="flex justify-between items-start border-b border-slate-200 pb-4">
+<div>
+<p class="text-sm font-bold text-slate-800" style="">Total Fields</p>
+<p class="text-xs text-ds-text mt-1" style="">Across all stages</p>
+</div>
+<span class="text-lg font-bold text-primary" style="">24</span>
+</div>
+<div class="flex justify-between items-start border-b border-slate-200 pb-4">
+<div>
+<p class="text-sm font-bold text-slate-800" style="">Scoring Model</p>
+<p class="text-xs text-ds-text mt-1" style="">Weighted average</p>
+</div>
+<span class="text-sm font-bold text-primary bg-primary/10 px-2 py-1 rounded" style="">Active</span>
+</div>
+<div class="pt-2">
+<p class="text-sm text-slate-600 italic" style="">
+                                By publishing this template, it will become available for new project evaluations immediately. Existing drafts will not be affected.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-24"></div>
+<footer class="fixed bottom-0 left-0 right-0 md:left-64 bg-white border-t border-slate-200 p-4 z-40">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<button class="flex items-center gap-2 px-6 py-2.5 text-ds-text font-bold text-sm hover:text-slate-800 transition-colors" style="">
+<span class="material-symbols-outlined text-sm" style="">arrow_back</span>
+                    Back
+                </button>
+<div class="flex items-center gap-4">
+<button class="px-6 py-2.5 rounded-lg border border-primary text-primary font-bold text-sm hover:bg-primary/5 transition-colors" style="">
+                        Save as Draft
+                    </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-bold text-sm hover:bg-primary/90 transition-all" style="">
+                        Publish Template
+                    </button>
+</div>
+</div>
+</footer>
+</main>
+</div>
+
+</body></html>

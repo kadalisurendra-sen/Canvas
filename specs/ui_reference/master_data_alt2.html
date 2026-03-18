@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "virtusa-dark1": "#151C28",
+                        "virtusa-green": "#02F576",
+                        "virtusa-dark2": "#1E2345",
+                        "virtusa-purple": "#5F2CFF",
+                        "virtusa-gray1": "#E7E8EB",
+                        "virtusa-gray2": "#CFD0D6",
+                        "virtusa-gray3": "#F3F4F4",
+                        "virtusa-gray4": "#3D4353",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                        "admin-label": "#9EA1AE"
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "4xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Montserrat', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<title>Master Data - ML Models View</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display">
+<header class="h-16 bg-virtusa-dark1 flex items-center justify-between px-6 shrink-0 z-20 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-virtusa-green rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-virtusa-dark1">grid_view</span>
+</div>
+<h1 class="text-white text-[24px] font-semibold tracking-tight">Helio Canvas <span class="text-virtusa-green font-medium text-[14px] ml-2">2.0</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="h-8 w-8 rounded-full bg-virtusa-green/20 border border-virtusa-green/40 overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLP0wozv47YhRXXRurMGCuDK-7QyuQYd7bPtJy7KCVLGbWhmt1A0MC82u2QUW1koGqhHh0l4FcGy-i8BZh3ZQmQ_RdmlHT-92yECFGI2zAN8eenOelYhb3-rRXVsBWMOG4u9zoAXEWHcJxNxD4DCvOTU7CSs1apFU8nA01sBEL4nIExOEntk9wCLVgTH_YwdFuWJDo8BJehPrJdhovgSP4W0QJVa815rQj_PoEEvjv17oP8xroJlGysRg5-VvYCmnoLlcFPXVdE1o"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden bg-background-light">
+<aside class="w-64 bg-virtusa-dark2 shrink-0 flex flex-col py-6 rounded-none shadow-lg z-10">
+<div class="px-6 mb-4">
+<p class="text-[12px] font-medium text-admin-label uppercase tracking-wider">ADMIN PANEL</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard_customize</span>
+<span class="text-[14px] font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-[14px] font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-[14px] font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="text-[14px] font-medium">Analytics &amp; Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white/10 text-white border-l-[3px] border-virtusa-purple rounded-r-[4px] shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px] text-virtusa-purple">database</span>
+<span class="text-[14px] font-medium">Master Data Management</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 flex overflow-hidden p-6 gap-6">
+<div class="flex-1 flex overflow-hidden bg-white rounded-[8px] shadow-sm">
+<div class="w-80 border-r border-virtusa-gray1 flex flex-col bg-white">
+<div class="p-4 border-b border-virtusa-gray1">
+<h2 class="text-[24px] font-semibold text-slate-900">Data Categories</h2>
+<p class="text-[14px] font-medium text-slate-500 mt-1">Select a category to manage values</p>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-slate-400">account_tree</span>
+<span class="text-[14px] font-medium">Organizational Taxonomy</span>
+</div>
+<span class="text-xs font-medium text-slate-400">128</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-slate-400">trending_up</span>
+<span class="text-[14px] font-medium">KPIs</span>
+</div>
+<span class="text-xs font-medium text-slate-400">42</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">code</span>
+<span class="text-[14px] font-medium">Solution Types</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">devices</span>
+<span class="text-[14px] font-medium">Digital Platforms</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-3 bg-virtusa-purple/10 text-virtusa-purple border-l-[3px] border-l-virtusa-purple">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">memory</span>
+<span class="text-[14px] font-semibold">ML Models</span>
+</div>
+<span class="text-[14px] font-medium bg-virtusa-purple text-white px-2 py-0.5 rounded-full">4</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">gpp_maybe</span>
+<span class="text-[14px] font-medium">Risk Categories</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden p-6 gap-6">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<h3 class="text-[32px] font-bold text-slate-900 leading-tight">ML Models</h3>
+<p class="text-slate-500 text-[14px] font-medium mt-1">Manage the catalog of machine learning models available for evaluation.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-virtusa-purple text-virtusa-purple font-medium rounded-[8px] hover:bg-virtusa-purple/5 transition-colors text-[14px]">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                            Import from CSV
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-virtusa-purple text-white font-medium rounded-[8px] hover:bg-virtusa-purple/90 transition-colors text-[14px] shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            Add Value
+                        </button>
+</div>
+</div>
+<div class="flex items-center relative max-w-md">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-virtusa-gray2 rounded-[8px] focus:outline-none focus:ring-2 focus:ring-virtusa-purple/20 focus:border-virtusa-purple text-[14px]" placeholder="Search ML Models..." type="text"/>
+</div>
+<div class="flex-1 overflow-hidden bg-white border border-virtusa-gray1 rounded-[8px] flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-virtusa-dark2 text-white border-b border-virtusa-gray1">
+<th class="px-4 py-4 w-12 text-center"></th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider">VALUE</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider">LABEL</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider">MODEL TYPE</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider">DESCRIPTION</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider">STATUS</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider w-24">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-virtusa-gray1 text-slate-700">
+<tr class="even:bg-virtusa-gray3 odd:bg-white hover:bg-slate-50 transition-colors group">
+<td class="px-4 py-4 text-center cursor-move text-slate-400 group-hover:text-slate-600">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[14px] text-slate-600">neural_networks</td>
+<td class="px-6 py-4 font-medium text-[14px] text-slate-900">Neural Networks (MLP)</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-virtusa-gray3 rounded-[16px] text-[14px] font-medium text-virtusa-gray4 border border-virtusa-gray2/50">Deep Learning</span></td>
+<td class="px-6 py-4 text-[14px]">Traditional multi-layer perceptron architecture.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[16px] bg-virtusa-green text-virtusa-dark1 text-[14px] font-medium">
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="even:bg-virtusa-gray3 odd:bg-white hover:bg-slate-50 transition-colors group">
+<td class="px-4 py-4 text-center cursor-move text-slate-400 group-hover:text-slate-600">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[14px] text-slate-600">random_forest</td>
+<td class="px-6 py-4 font-medium text-[14px] text-slate-900">Random Forest</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-virtusa-gray3 rounded-[16px] text-[14px] font-medium text-virtusa-gray4 border border-virtusa-gray2/50">Ensemble</span></td>
+<td class="px-6 py-4 text-[14px]">Robust decision-tree based ensemble classifier.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[16px] bg-virtusa-green text-virtusa-dark1 text-[14px] font-medium">
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="even:bg-virtusa-gray3 odd:bg-white hover:bg-slate-50 transition-colors group">
+<td class="px-4 py-4 text-center cursor-move text-slate-400 group-hover:text-slate-600">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[14px] text-slate-600">bert_nlp</td>
+<td class="px-6 py-4 font-medium text-[14px] text-slate-900">BERT</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-virtusa-gray3 rounded-[16px] text-[14px] font-medium text-virtusa-gray4 border border-virtusa-gray2/50">Transformer</span></td>
+<td class="px-6 py-4 text-[14px]">Bidirectional encoder representations for NLP tasks.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[16px] bg-virtusa-green text-virtusa-dark1 text-[14px] font-medium">
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="even:bg-virtusa-gray3 odd:bg-white hover:bg-slate-50 transition-colors group">
+<td class="px-4 py-4 text-center cursor-move text-slate-400 group-hover:text-slate-600">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[14px] text-slate-600">xgboost</td>
+<td class="px-6 py-4 font-medium text-[14px] text-slate-900">XGBoost</td>
+<td class="px-6 py-4"><span class="px-3 py-1 bg-virtusa-gray3 rounded-[16px] text-[14px] font-medium text-virtusa-gray4 border border-virtusa-gray2/50">Gradient Boosting</span></td>
+<td class="px-6 py-4 text-[14px]">Optimized distributed gradient boosting library.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-[16px] bg-virtusa-green text-virtusa-dark1 text-[14px] font-medium">
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-virtusa-purple hover:bg-virtusa-purple/10 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-auto border-t border-virtusa-gray1 p-4 bg-white flex items-center justify-between">
+<span class="text-[14px] text-slate-500 font-medium">Showing 4 of 4 values</span>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded-[4px] border border-virtusa-gray2 bg-white text-slate-400 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="text-[14px] font-medium px-2">1</span>
+<button class="p-1 rounded-[4px] border border-virtusa-gray2 bg-white text-slate-400 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

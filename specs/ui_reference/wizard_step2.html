@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Admin Template Wizard - Stage Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5F2CFF",
+                        "v-coal": "#151C28",
+                        "sidebar": "#1E2345",
+                        "background-light": "#F3F4F4",
+                        "border-light": "#E7E8EB",
+                        "text-back": "#6D7283"
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Montserrat', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background-light min-h-screen flex flex-col font-display">
+<header class="bg-v-coal text-white px-6 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded">
+<svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight" style="">Helio Canvas <span class="text-primary/80 font-medium text-sm ml-1" style="">2.0</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right mr-2">
+<p class="text-xs text-slate-300" style="">System Admin</p>
+<p class="text-sm font-semibold" style="">Alex Rivera</p>
+</div>
+<div class="size-10 rounded-full border-2 border-primary/30 bg-slate-700 overflow-hidden">
+<img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq72rTQ4fIeoZRs2KvRyRkHRWgbAJ5cq2Iz7znKVX7y-I8kVY6F5Z2euQJ9PEHpQ4-apm49b7r6lMLZpLTfF8CYBEHSAL0JQ9U0eAZ7w-pG0ImQrBZ2JeRqto8Kpci-kAgw6YcOt66c0IDqblbbIwTMnqcJ70lW7u7t-TgQrrPKkKAPayCdxG_VmHiE1asm7S5QDa1y67cgxYykS8GB6PA-9-9IaiNrnijkDHYsFXhBqN5ADDVtpwUxoQsBA0epSYNVGrg6FYKnsg" class="" style="">
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-sidebar text-slate-300 flex flex-col border-r border-slate-800">
+<div class="p-6">
+<p class="text-xs font-uppercase tracking-widest text-slate-500 font-bold mb-4 uppercase" style="">Admin Panel</p>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-white border-l-[3px] border-primary" href="#" style="">
+<span class="material-symbols-outlined text-[#5F2CFF]" style="">layers</span>
+<span class="text-sm font-bold" style="">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">group</span>
+<span class="text-sm font-medium" style="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">settings</span>
+<span class="text-sm font-medium" style="">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">monitoring</span>
+<span class="text-sm font-medium" style="">Analytics and Audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">database</span>
+<span class="text-sm font-medium" style="">Master Data Management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
+<div class="px-8 py-8 border-b border-border-light bg-background-light">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-[32px] font-bold text-v-coal" style="">Stage Config</h2>
+<p class="text-slate-500 mt-2" style="">Configure the evaluation stages for this template</p>
+</div>
+</div>
+<div class="max-w-4xl mx-auto relative mb-12">
+<div class="absolute top-5 left-0 right-0 h-[1px] -z-0">
+<div class="flex h-full w-full">
+<div class="w-[25%] h-full bg-primary"></div>
+<div class="w-[75%] h-full bg-border-light"></div>
+</div>
+</div>
+<div class="flex items-center justify-between relative z-10">
+<div class="flex flex-col items-center gap-3 w-32">
+<div class="size-10 rounded-full bg-primary text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-xl" style="">check</span>
+</div>
+<span class="text-xs font-bold text-primary text-center" style="">1. General Info</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-32">
+<div class="size-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center font-bold" style="">
+                            2
+                        </div>
+<span class="text-xs font-bold text-primary text-center" style="">2. Stage Config</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-32">
+<div class="size-10 rounded-full bg-[#E7E8EB] text-slate-400 flex items-center justify-center font-bold" style="">
+                            3
+                        </div>
+<span class="text-xs font-medium text-slate-400 text-center" style="">3. Field and Sections</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-32">
+<div class="size-10 rounded-full bg-[#E7E8EB] text-slate-400 flex items-center justify-center font-bold" style="">
+                            4
+                        </div>
+<span class="text-xs font-medium text-slate-400 text-center" style="">4. Scoring</span>
+</div>
+<div class="flex flex-col items-center gap-3 w-32">
+<div class="size-10 rounded-full bg-[#E7E8EB] text-slate-400 flex items-center justify-center font-bold" style="">
+                            5
+                        </div>
+<span class="text-xs font-medium text-slate-400 text-center" style="">5. Publish</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-8 flex-1">
+<div class="w-full">
+<div class="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden p-8">
+<div class="pb-4 mb-4 border-b border-border-light flex items-center justify-between">
+<h3 class="font-bold text-v-coal text-lg" style="">Evaluation Stages</h3>
+<span class="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded font-bold uppercase tracking-wider" style="">Drag to Reorder</span>
+</div>
+<div class="space-y-3">
+<div class="p-4 bg-background-light rounded-lg flex items-center gap-4 group border border-border-light">
+<span class="material-symbols-outlined text-slate-400 cursor-grab active:cursor-grabbing hover:text-v-coal" style="">drag_indicator</span>
+<div class="size-8 rounded bg-white border border-border-light flex items-center justify-center text-xs font-bold text-v-coal" style="">1</div>
+<div class="flex-1">
+<input class="w-full border-none focus:ring-0 text-sm font-semibold text-v-coal p-0 bg-transparent" type="text" value="Desirable">
+</div>
+<div class="flex items-center gap-6">
+<div class="size-6 rounded-full border border-border-light" style="background-color: #0df2f2;"></div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 size-3 bg-white rounded-full"></div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">delete</span>
+</button>
+</div>
+</div>
+<div class="p-4 bg-background-light rounded-lg flex items-center gap-4 group border border-border-light">
+<span class="material-symbols-outlined text-slate-400 cursor-grab hover:text-v-coal" style="">drag_indicator</span>
+<div class="size-8 rounded bg-white border border-border-light flex items-center justify-center text-xs font-bold text-v-coal" style="">2</div>
+<div class="flex-1">
+<input class="w-full border-none focus:ring-0 text-sm font-semibold text-v-coal p-0 bg-transparent" type="text" value="Feasible">
+</div>
+<div class="flex items-center gap-6">
+<div class="size-6 rounded-full border border-border-light" style="background-color: #a855f7;"></div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 size-3 bg-white rounded-full"></div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">delete</span>
+</button>
+</div>
+</div>
+<div class="p-4 bg-background-light rounded-lg flex items-center gap-4 group border border-border-light">
+<span class="material-symbols-outlined text-slate-400 cursor-grab hover:text-v-coal" style="">drag_indicator</span>
+<div class="size-8 rounded bg-white border border-border-light flex items-center justify-center text-xs font-bold text-v-coal" style="">3</div>
+<div class="flex-1">
+<input class="w-full border-none focus:ring-0 text-sm font-semibold text-v-coal p-0 bg-transparent" type="text" value="Viable">
+</div>
+<div class="flex items-center gap-6">
+<div class="size-6 rounded-full border border-border-light" style="background-color: #94a3b8;"></div>
+<div class="flex items-center gap-2">
+<div class="w-10 h-5 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 size-3 bg-white rounded-full"></div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">delete</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-6 flex justify-center">
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 border-dashed border-border-light text-slate-500 font-bold hover:border-primary hover:text-primary transition-all group w-full justify-center" style="">
+<span class="material-symbols-outlined text-xl transition-transform group-hover:scale-110" style="">add_circle</span>
+                            Add New Evaluation Stage
+                        </button>
+</div>
+<div class="mt-6 p-4 bg-slate-50 rounded-lg border border-border-light">
+<p class="text-xs text-slate-500 flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-sm text-primary" style="">info</span>
+                            Tip: The stages defined here will establish the default evaluation path for this template. You can customize field requirements for each stage in step 3.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<footer class="bg-white border-t border-border-light px-8 py-4 flex items-center justify-between sticky bottom-0 z-40">
+<button class="flex items-center gap-2 px-6 py-2 text-text-back font-bold hover:text-v-coal transition-colors bg-transparent border-0" style="">
+<span class="material-symbols-outlined text-lg" style="">arrow_back</span>
+                Back
+            </button>
+<div class="flex items-center gap-3">
+<button class="px-6 py-2 rounded-lg text-slate-500 font-bold hover:bg-slate-50 transition-colors" style="">
+                    Save as Draft
+                </button>
+<button class="flex items-center gap-2 px-8 py-2 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 shadow-sm transition-all active:scale-95" style="">
+                    Next
+                    <span class="material-symbols-outlined text-lg" style="">arrow_forward</span>
+</button>
+</div>
+</footer>
+</main>
+</div>
+
+</body></html>

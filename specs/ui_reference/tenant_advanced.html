@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Specific Tenant - Defaults Settings | Helio Canvas 2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style type="text/tailwindcss">
+        :root {
+            --v-coal-95: #1E2345;
+            --v-royal-purple: #5F2CFF;
+            --v-header-bg: #151C28;
+            --v-logo-green: #02F576;
+            --v-tab-inactive: #38369A;
+            --v-label-text: #3D4353;
+            --v-border-color: #CFD0D6;
+            --v-page-bg: #F3F4F4;
+            --v-discard-text: #6D7283;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--v-page-bg);
+        }
+        .form-card {
+            border-bottom-left-radius: 48px;
+            box-shadow: 0px 4px 52px rgba(0, 0, 0, 0.04);
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #E2E8F0;
+            height: 6px;
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -6px;
+            background-color: var(--v-royal-purple);
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+        }
+        .sidebar-item-active {
+            border-left: 3px solid var(--v-royal-purple);
+            background-color: rgba(95, 44, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="text-[#3D4353] min-h-screen">
+<div class="flex flex-col h-screen">
+<header class="bg-[#151C28] h-16 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-3">
+<div class="text-[#02F576]">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z"></path>
+</svg>
+</div>
+<h1 class="text-white text-xl font-bold tracking-tight" style="">Helio Canvas 2.0</h1>
+</div>
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full border border-white/20 overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh8vXfdMsno61iQgHkylhQmjTtQa6ndsXfjjxW3hozOLDef8hv0VRLW1vR1NVbrDAuZAq2wq5jBV2sBSMaNT9AFGQ-zpiKJrLJDnW5FYjO3uis45dVQCKMhf2vKi-2oqc76iZ2rY2WJJjwPHHQo1Xa1_UXrpgmIrBj4VUgBFUGsBe13sxex4wNj_QZqsQANrLT8IZArDDHyduMNAxrBPDUUygdBZSINhQCdc5vqEXfVuVFCUOiUeg00JsOfrbeGvEFzdezQ8UsaQ8" style="">
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-72 bg-[#1E2345] flex flex-col shrink-0">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<h2 class="text-white font-semibold text-sm tracking-wider uppercase" style="">Admin panel</h2>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">dashboard_customize</span>
+<span class="text-sm font-medium" style="">Templates Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="text-sm font-medium" style="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white sidebar-item-active" href="#" style="">
+<span class="material-symbols-outlined text-[#5F2CFF]" style="font-variation-settings: &quot;FILL&quot; 1;">settings</span>
+<span class="text-sm font-medium" style="">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">analytics</span>
+<span class="text-sm font-medium" style="">Analytics and Audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">database</span>
+<span class="text-sm font-medium" style="">Master Data Manageement</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto">
+<div class="px-10 pt-8 pb-0">
+<a class="flex items-center gap-2 text-[#5F2CFF] hover:underline transition-colors text-sm font-semibold mb-4" href="#" style="">
+<span class="material-symbols-outlined text-lg" style="">arrow_back</span>
+                    Back to All Tenants
+                </a>
+<h2 class="text-[32px] font-bold text-[#151C28] mb-8" style="">Acme Corporation</h2>
+<div class="flex gap-1">
+<a class="px-8 py-3 text-sm font-bold text-white bg-[#38369A] rounded-t-lg" href="#" style="">General</a>
+<a class="px-8 py-3 text-sm font-bold text-white bg-[#38369A] rounded-t-lg" href="#" style="">Branding</a>
+<a class="px-8 py-3 text-sm font-bold text-white bg-[#5F2CFF] rounded-t-lg shadow-lg" href="#" style="">Defaults</a>
+</div>
+</div>
+<div class="px-10 pb-10">
+<div class="bg-white form-card p-10 max-w-5xl">
+<div class="space-y-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+<div>
+<label class="text-sm font-medium text-[#3D4353]" style="">Default Currency</label>
+<p class="text-xs text-[#6D7283] mt-1" style="">Primary currency for calculations.</p>
+</div>
+<div class="md:col-span-2">
+<select class="w-full max-w-sm rounded-[8px] border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-[#5F2CFF] focus:border-[#5F2CFF] py-3 px-4">
+<option selected="" value="USD">USD - US Dollar</option>
+<option value="EUR">EUR - Euro</option>
+<option value="GBP">GBP - British Pound</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+<div>
+<label class="text-sm font-medium text-[#3D4353]" style="">Standard ROI Period</label>
+<p class="text-xs text-[#6D7283] mt-1" style="">Default calculation timeline.</p>
+</div>
+<div class="md:col-span-2">
+<select class="w-full max-w-sm rounded-[8px] border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-[#5F2CFF] focus:border-[#5F2CFF] py-3 px-4">
+<option>1 Year</option>
+<option>2 Years</option>
+<option selected="">3 Years</option>
+<option>5 Years</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+<div>
+<label class="text-sm font-medium text-[#3D4353]" style="">Minimum Feasibility Threshold</label>
+<p class="text-xs text-[#6D7283] mt-1" style="">Score required for viability.</p>
+</div>
+<div class="md:col-span-2">
+<div class="flex items-center gap-6 max-w-md">
+<input class="flex-1" max="100" min="0" type="range" value="65">
+<div class="relative w-24">
+<input class="w-full rounded-[8px] border-[#CFD0D6] text-[#3D4353] text-right focus:ring-[#5F2CFF] focus:border-[#5F2CFF] py-2 px-3 pr-8 font-semibold text-sm" type="number" value="65">
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-[#6D7283]" style="">%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+<div>
+<label class="text-sm font-medium text-[#3D4353]" style="">Required Ethics Level</label>
+<p class="text-xs text-[#6D7283] mt-1" style="">Minimum compliance standards.</p>
+</div>
+<div class="md:col-span-2">
+<select class="w-full max-w-sm rounded-[8px] border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-[#5F2CFF] focus:border-[#5F2CFF] py-3 px-4">
+<option>Level 1 - Minimal Risk</option>
+<option>Level 2 - Balanced</option>
+<option selected="">Level 3 - Enterprise Standard</option>
+<option>Level 4 - High Oversight</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto bg-white border-t border-[#E2E8F0] p-6 flex justify-between items-center px-10">
+<button class="px-6 py-2.5 rounded-[8px] border border-[#5F2CFF] text-[#5F2CFF] font-bold text-sm hover:bg-[#5F2CFF]/5 transition-colors" style="">
+                    Reset to Defaults
+                </button>
+<div class="flex items-center gap-6">
+<button class="text-[#6D7283] font-bold text-sm hover:text-[#151C28] transition-colors" style="">
+                        Discard&nbsp;</button>
+<button class="px-8 py-3 rounded-[8px] bg-[#5F2CFF] text-white font-bold text-sm shadow-lg shadow-[#5F2CFF]/20 hover:bg-[#4a22cc] transition-all" style="">
+                        Save Configuration
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

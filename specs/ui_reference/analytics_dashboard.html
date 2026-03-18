@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Virtusa DS 3.0 Audit Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --v-royal-purple: #5F2CFF;
+            --v-navy-dark: #151C28;
+            --v-navy-sidebar: #1E2345;
+            --v-green: #02F576;
+            --v-bg-gray: #F3F4F4;
+            --v-border-gray: #CFD0D6;
+            --v-text-security: #FF4D4D;
+            --v-text-management: #5F2CFF;
+            --v-text-system: #3D4353;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--v-bg-gray);
+        }
+        .filter-shadow {
+            box-shadow: 0px 4px 16px rgba(21, 28, 40, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-[#151C28]">
+<header class="h-[72px] bg-[var(--v-navy-dark)] flex items-center justify-between px-8 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<svg fill="none" height="32" viewBox="0 0 48 48" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="#02F576"></path>
+</svg>
+<div class="text-white">
+<span class="font-extrabold text-xl tracking-tight">Helio</span>
+<span class="font-light text-xl tracking-tight ml-1">Canvas 2.0</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-sm font-semibold text-white">Alex Rivera</p>
+<p class="text-xs text-slate-400">System Admin</p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-[var(--v-green)] overflow-hidden bg-slate-200">
+<img alt="Alex Rivera" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqHLLWfLG7GXI-6Z52Y5J5Da87xTKZBj1CLg_RGYo_u6PQVRrisOTIxjh5af-RAjmJDVfnxD9I5futw5wUHzOjf8aokJdLKev5jUQ75QUBtOw2oBY_goqg1DbWILsreWdSCi1BPf0LcLIDKY-Cpf4slUR-5TmzbmcWd7cI7ANaHuSPDc8FoNYkCe5a2FtATjCHBq-edV9YdZIIzPacxHZp2Jx2LEot7eLEyi8YNUFkUtJb67A1uCXma04B3UMi2ppcngsYYuX2Hjs"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex">
+<aside class="w-[280px] bg-[var(--v-navy-sidebar)] min-h-[calc(100vh-72px)] flex flex-col shrink-0">
+<div class="py-8">
+<p class="px-8 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-6">Admin Panel</p>
+<nav class="flex flex-col">
+<a class="flex items-center gap-3 px-8 py-4 text-slate-400 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+<span class="text-[14px] font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-4 text-slate-400 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-[14px] font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-4 text-slate-400 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-[14px] font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-4 text-white bg-white/5 border-l-[3px] border-[var(--v-royal-purple)] transition-all" href="#">
+<span class="material-symbols-outlined text-[20px] text-[var(--v-royal-purple)]">analytics</span>
+<span class="text-[14px] font-semibold">Analytics &amp; Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-8 py-4 text-slate-400 hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">database</span>
+<span class="text-[14px] font-medium">Master Data Management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 p-10">
+<div class="max-w-[1400px] mx-auto">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h1 class="text-[32px] font-bold text-[var(--v-navy-dark)]">Analytics &amp; Audit Logs</h1>
+</div>
+<button class="flex items-center gap-2 px-6 py-3 bg-[var(--v-royal-purple)] text-white rounded-[8px] text-[14px] font-semibold hover:opacity-90 transition-all shadow-lg shadow-[#5F2CFF26]">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Export Log
+                </button>
+</div>
+<div class="flex gap-10 border-b border-[#CFD0D6] mb-8">
+<button class="pb-4 text-[14px] font-medium text-slate-400 hover:text-slate-600">Dashboard</button>
+<button class="pb-4 text-[14px] font-semibold text-[var(--v-navy-dark)] border-b-[3px] border-[var(--v-royal-purple)]">Audit Log</button>
+</div>
+<div class="bg-white rounded-[24px] p-8 filter-shadow mb-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+<div class="space-y-2">
+<label class="block text-[12px] font-bold text-slate-500 uppercase tracking-wider">User</label>
+<select class="w-full h-11 bg-white border border-[var(--v-border-gray)] rounded-[8px] text-[14px] px-4 focus:ring-1 focus:ring-[var(--v-royal-purple)] outline-none">
+<option>All Users</option>
+<option>Alex Rivera</option>
+<option>Sarah Connor</option>
+<option>James Miller</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-[12px] font-bold text-slate-500 uppercase tracking-wider">Action Type</label>
+<select class="w-full h-11 bg-white border border-[var(--v-border-gray)] rounded-[8px] text-[14px] px-4 focus:ring-1 focus:ring-[var(--v-royal-purple)] outline-none">
+<option>All Actions</option>
+<option>Login/Logout</option>
+<option>Configuration Change</option>
+<option>Data Export</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-[12px] font-bold text-slate-500 uppercase tracking-wider">Date</label>
+<input class="w-full h-11 bg-white border border-[var(--v-border-gray)] rounded-[8px] text-[14px] px-4 focus:ring-1 focus:ring-[var(--v-royal-purple)] outline-none" type="date" value="2023-10-25"/>
+</div>
+<div class="flex gap-3">
+<button class="h-11 px-6 bg-[var(--v-royal-purple)] text-white text-[14px] font-semibold rounded-[8px] flex-1 hover:opacity-90">Apply Filters</button>
+<button class="h-11 px-4 text-slate-500 text-[14px] font-medium hover:text-[var(--v-navy-dark)]">Clear</button>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[12px] overflow-hidden filter-shadow border border-[#E5E7EB]">
+<table class="w-full text-left">
+<thead class="bg-[var(--v-navy-sidebar)]">
+<tr>
+<th class="px-8 py-5 text-[14px] font-semibold text-white tracking-wide">Date/Time</th>
+<th class="px-8 py-5 text-[14px] font-semibold text-white tracking-wide">Actor</th>
+<th class="px-8 py-5 text-[14px] font-semibold text-white tracking-wide">Event</th>
+<th class="px-8 py-5 text-[14px] font-semibold text-white tracking-wide">Details</th>
+</tr>
+</thead>
+<tbody class="text-[16px] text-[var(--v-navy-dark)]">
+<tr class="bg-white border-b border-slate-100">
+<td class="px-8 py-6 font-regular">Oct 25, 2023 <span class="text-slate-400 ml-2">09:12 AM</span></td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 shrink-0">
+<img alt="Actor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqHLLWfLG7GXI-6Z52Y5J5Da87xTKZBj1CLg_RGYo_u6PQVRrisOTIxjh5af-RAjmJDVfnxD9I5futw5wUHzOjf8aokJdLKev5jUQ75QUBtOw2oBY_goqg1DbWILsreWdSCi1BPf0LcLIDKY-Cpf4slUR-5TmzbmcWd7cI7ANaHuSPDc8FoNYkCe5a2FtATjCHBq-edV9YdZIIzPacxHZp2Jx2LEot7eLEyi8YNUFkUtJb67A1uCXma04B3UMi2ppcngsYYuX2Hjs"/>
+</div>
+<span class="font-medium">Alex Rivera</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#5F2CFF15] text-[var(--v-text-management)]">MANAGEMENT</span>
+</td>
+<td class="px-8 py-6 text-slate-600">Updated tenant SSO configuration settings.</td>
+</tr>
+<tr class="bg-[var(--v-bg-gray)] border-b border-slate-100">
+<td class="px-8 py-6 font-regular">Oct 25, 2023 <span class="text-slate-400 ml-2">08:45 AM</span></td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[var(--v-navy-sidebar)] flex items-center justify-center shrink-0">
+<span class="text-white text-[10px] font-bold">SYS</span>
+</div>
+<span class="font-medium">System</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#3D435315] text-[var(--v-text-system)]">SYSTEM</span>
+</td>
+<td class="px-8 py-6 text-slate-600">Automated daily database backup completed successfully.</td>
+</tr>
+<tr class="bg-white border-b border-slate-100">
+<td class="px-8 py-6 font-regular">Oct 24, 2023 <span class="text-slate-400 ml-2">04:30 PM</span></td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 shrink-0">
+<img alt="Actor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCnUm09XW22HzLB7s9-bXWcZtNw1Z5gZ8pBz2bA44K1VE2M7J32zlieRqDtY6qHGdEQltay-lyQEBtXGyT_fqzBWIJCymGOb-rPu5t_7shEB3CkX0Wa1WV8nPr-JYehWq7qQUTxfTPxteODSHndgB-CVwbs3ophGnf98BN4uZWwPCvCIn6YEmQm9Kgzxs8oRKKa-Hj-YxHcnEsZWAg2uDOGoQw9-ZOdGPKH6vmxg4XSWnYvQw0ILhLsveuoyT6CWXXrRFUgLcA4jw"/>
+</div>
+<span class="font-medium">Sarah Connor</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#FF4D4D15] text-[var(--v-text-security)]">SECURITY</span>
+</td>
+<td class="px-8 py-6 text-slate-600">Failed login attempt from unrecognized IP (192.168.1.105).</td>
+</tr>
+<tr class="bg-[var(--v-bg-gray)] border-b border-slate-100">
+<td class="px-8 py-6 font-regular">Oct 24, 2023 <span class="text-slate-400 ml-2">02:15 PM</span></td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 shrink-0">
+<img alt="Actor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmrfEQwX2QDTGSNn3lpXwJjNy5p9LNVjhZm1eit3t6IInBZtqhfQk9FAkQsnyXCYS2lqzgHlQOX5v0w3lDAmb_m5RvM40bocEsq3RsbDLJ53T1kzvllywFSqScckX_DzovuUyphXh8l8-BYnOkh6bvaKkVP9jQcvWwg5tkIOQ4Yxq9a5_6zycd7wi-8Ws4tA2LuJwqDrC8k0uM3l_9d5LZ4eBy44Snra1ycAJtoBvZPzV43ftamztGw8aZIo-Y7yJn-tRHP3yWzXw"/>
+</div>
+<span class="font-medium">James Miller</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#5F2CFF15] text-[var(--v-text-management)]">MANAGEMENT</span>
+</td>
+<td class="px-8 py-6 text-slate-600">Exported 'Q3 Evaluations Report' to CSV format.</td>
+</tr>
+<tr class="bg-white">
+<td class="px-8 py-6 font-regular">Oct 24, 2023 <span class="text-slate-400 ml-2">10:05 AM</span></td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 shrink-0">
+<img alt="Actor" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqHLLWfLG7GXI-6Z52Y5J5Da87xTKZBj1CLg_RGYo_u6PQVRrisOTIxjh5af-RAjmJDVfnxD9I5futw5wUHzOjf8aokJdLKev5jUQ75QUBtOw2oBY_goqg1DbWILsreWdSCi1BPf0LcLIDKY-Cpf4slUR-5TmzbmcWd7cI7ANaHuSPDc8FoNYkCe5a2FtATjCHBq-edV9YdZIIzPacxHZp2Jx2LEot7eLEyi8YNUFkUtJb67A1uCXma04B3UMi2ppcngsYYuX2Hjs"/>
+</div>
+<span class="font-medium">Alex Rivera</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="inline-block px-3 py-1 rounded-full text-[12px] font-bold bg-[#5F2CFF15] text-[var(--v-text-management)]">MANAGEMENT</span>
+</td>
+<td class="px-8 py-6 text-slate-600">Assigned 'Evaluator' role to user Elena Rodriguez.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-6 flex items-center justify-between px-2">
+<p class="text-[14px] text-slate-500">Showing 1 to 5 of 128 results</p>
+<div class="flex items-center gap-2">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-[#CFD0D6] text-slate-500 hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-[var(--v-royal-purple)] text-white text-[14px] font-bold">1</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-[#CFD0D6] text-slate-500 hover:bg-white transition-colors text-[14px] font-medium">2</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-[#CFD0D6] text-slate-500 hover:bg-white transition-colors text-[14px] font-medium">3</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-[#CFD0D6] text-slate-500 hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

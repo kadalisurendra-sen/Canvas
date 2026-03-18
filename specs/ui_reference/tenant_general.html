@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Helio Canvas Admin - Acme Corporation Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                font-family: 'Montserrat', sans-serif;
+                background-color: #F3F4F4;
+                color: #3D4353;
+            }
+        }
+        :root {
+            --v-royal-purple: #5F2CFF;
+            --v-navy-dark: #1E2345;
+            --v-header-bg: #151C28;
+            --v-green-logo: #02F576;
+            --v-tab-inactive: #38369A;
+            --v-label-color: #3D4353;
+            --v-border-color: #CFD0D6;
+            --v-card-shadow: 0px 4px 52px rgba(0, 0, 0, 0.04);
+            --admin-panel-heading: #9EA1AE;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'v-purple': '#5F2CFF',
+                        'v-navy': '#1E2345',
+                        'v-header': '#151C28',
+                        'v-green': '#02F576',
+                        'v-inactive-tab': '#38369A'
+                    },
+                    borderRadius: {
+                        'form': '8px',
+                        'card': '24px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+<header class="bg-v-header h-16 flex items-center justify-between px-6 shrink-0 z-30">
+<div class="flex items-center gap-3">
+<div class="text-v-green">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z"></path>
+</svg>
+</div>
+<h1 class="text-white text-xl font-bold tracking-tight">Helio Canvas 2.0</h1>
+</div>
+<div class="flex items-center">
+<div class="h-10 w-10 rounded-full border-2 border-v-green/30 overflow-hidden">
+<img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh8vXfdMsno61iQgHkylhQmjTtQa6ndsXfjjxW3hozOLDef8hv0VRLW1vR1NVbrDAuZAq2wq5jBV2sBSMaNT9AFGQ-zpiKJrLJDnW5FYjO3uis45dVQCKMhf2vKi-2oqc76iZ2rY2WJJjwPHHQo1Xa1_UXrpgmIrBj4VUgBFUGsBe13sxex4wNj_QZqsQANrLT8IZArDDHyduMNAxrBPDUUygdBZSINhQCdc5vqEXfVuVFCUOiUeg00JsOfrbeGvEFzdezQ8UsaQ8"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-72 bg-v-navy flex flex-col shrink-0 border-t border-white/5">
+<div class="py-6">
+<div class="px-6 mb-2">
+<span class="text-[11px] font-medium tracking-wider text-[#9EA1AE]">ADMIN PANEL</span>
+</div>
+<nav class="space-y-0.5">
+<a class="flex items-center gap-3 px-6 py-4 text-white/70 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard_customize</span>
+<span class="text-sm font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-white/70 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-white bg-white/10 border-l-[3px] border-v-purple transition-colors" href="#">
+<span class="material-symbols-outlined text-v-purple" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-sm font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-white/70 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Analytics &amp; Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-4 text-white/70 hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="text-sm font-medium">Master Data Management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto">
+<div class="px-10 pt-10 pb-6">
+<div class="mb-4">
+<a class="inline-flex items-center text-sm font-medium text-[#7D8494] hover:text-v-purple transition-colors" href="#">
+<span class="material-symbols-outlined text-base mr-2">arrow_back</span>
+                        Back to All Tenants
+                    </a>
+</div>
+<h2 class="text-[32px] font-bold text-[#1E2345]">Acme Corporation</h2>
+</div>
+<div class="px-10 flex gap-1">
+<a class="bg-v-purple text-white font-bold text-sm px-8 py-3 rounded-t-lg transition-all" href="#">General</a>
+<a class="bg-v-inactive-tab text-white/70 font-medium text-sm px-8 py-3 rounded-t-lg hover:text-white transition-all" href="#">Branding</a>
+<a class="bg-v-inactive-tab text-white/70 font-medium text-sm px-8 py-3 rounded-t-lg hover:text-white transition-all" href="#">Defaults</a>
+</div>
+<div class="px-10 pb-10">
+<div class="bg-white rounded-card shadow-[0px_4px_52px_rgba(0,0,0,0.04)] p-10 max-w-5xl">
+<div class="space-y-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<div>
+<label class="text-sm font-medium text-[#3D4353]">Organization Name</label>
+<p class="text-xs text-[#7D8494] mt-1">Visible to all users in the workspace.</p>
+</div>
+<div class="md:col-span-2">
+<input class="w-full h-12 rounded-form border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-v-purple focus:border-v-purple px-4" type="text" value="Acme Corporation"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<div>
+<label class="text-sm font-medium text-[#3D4353]">Organization Logo</label>
+<p class="text-xs text-[#7D8494] mt-1">Company branding for reports and dashboard headers.</p>
+</div>
+<div class="md:col-span-2">
+<div class="flex flex-col md:flex-row items-center gap-8 p-8 border-2 border-dashed border-[#CFD0D6] rounded-card bg-gray-50/50">
+<div class="w-24 h-24 bg-white border border-[#CFD0D6] rounded-lg flex items-center justify-center p-3 shadow-sm shrink-0">
+<img alt="Current logo preview" class="max-w-full max-h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe5tjnYCLFqJrJxlclhenOFa6iFAug10MYN96C3NN8XMzMwSi2L0tafTU0Jh2y-3XXzOzEz1-RnbzRAPy523NNbu58nStduh2JH5iPQUTZQYooSudvWV0Z08JXc23wPUwAo6qKHU7hVEzZ2uPCG1WLLsqFeouNVq6G06BAmOdj2ZeEGt4EqcwoReWIQRMqYMxazVCxXnmb5jZlFK0W85K94XorX1CBesQzQvGLX1c7uF6SUuhWnI6LZf2xX_35K73ulPYb5L19KdY"/>
+</div>
+<div class="flex-1 text-center md:text-left">
+<button class="bg-white border border-v-purple text-v-purple px-5 py-2.5 rounded-form text-sm font-semibold hover:bg-v-purple hover:text-white transition-all">
+                                            Upload New Logo
+                                        </button>
+<p class="text-xs text-[#7D8494] mt-3">PNG, SVG (max 2MB)</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pt-4">
+<div>
+<label class="text-sm font-medium text-[#3D4353]">Localization</label>
+<p class="text-xs text-[#7D8494] mt-1">Set the default regional settings for the organization.</p>
+</div>
+<div class="md:col-span-2 space-y-6">
+<div class="space-y-2">
+<span class="text-[14px] font-medium text-[#3D4353]">Timezone</span>
+<select class="w-full h-12 rounded-form border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-v-purple focus:border-v-purple px-4">
+<option selected="">UTC-5 (Eastern Time)</option>
+<option>UTC-8 (Pacific Time)</option>
+<option>UTC+0 (London)</option>
+</select>
+</div>
+<div class="space-y-2">
+<span class="text-[14px] font-medium text-[#3D4353]">Default Language</span>
+<select class="w-full h-12 rounded-form border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-v-purple focus:border-v-purple px-4">
+<option selected="">English</option>
+<option>Spanish</option>
+<option>French</option>
+</select>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pt-4 border-t border-[#F0F0F0]">
+<div>
+<label class="text-sm font-medium text-[#3D4353]">Use Case Configuration</label>
+<p class="text-xs text-[#7D8494] mt-1">Global defaults for newly created evaluation projects.</p>
+</div>
+<div class="md:col-span-2">
+<div class="space-y-2">
+<span class="text-[14px] font-medium text-[#3D4353]">Default Template</span>
+<select class="w-full h-12 rounded-form border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-v-purple focus:border-v-purple px-4">
+<option selected="">AI/ML Evaluation</option>
+<option>SaaS Opportunity Audit</option>
+<option>Hardware Lifecycle Analysis</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-auto border-t border-[#CFD0D6] bg-white p-6 flex justify-between items-center px-10">
+<button class="px-6 py-2.5 rounded-form border border-v-purple text-v-purple font-semibold hover:bg-v-purple/5 transition-colors">
+                    Reset to Defaults
+                </button>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 rounded-form text-[#7D8494] font-semibold hover:text-[#3D4353] transition-colors">
+                        Discard
+                    </button>
+<button class="px-10 py-2.5 rounded-form bg-v-purple text-white font-bold shadow-lg hover:shadow-xl hover:translate-y-[-1px] transition-all active:translate-y-0">
+                        Save Changes
+                    </button>
+</div>
+</footer>
+</main>
+</div>
+
+</body></html>

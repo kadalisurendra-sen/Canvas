@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "v-nav": "#151C28",
+                        "v-logo": "#02F576",
+                        "v-sidebar": "#1E2345",
+                        "v-accent": "#5F2CFF",
+                        "v-label": "#3D4353",
+                        "v-stepper-bg": "#E7E8EB",
+                        "v-card": "#F3F4F4",
+                        "v-input-border": "#CFD0D6",
+                        "v-cancel": "#6D7283",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    boxShadow: {
+                        "v-card": "0px 4px 16px rgba(21, 28, 40, 0.08)"
+                    }
+                },
+            },
+        }
+    </script>
+<title>Admin Template Creation Wizard - Step 1</title>
+</head>
+<body class="bg-white font-display text-slate-900 antialiased">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<header class="flex h-[64px] w-full items-center justify-between bg-v-nav px-6 text-white shrink-0">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="size-8 bg-v-logo rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-v-nav font-bold" style="">query_stats</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight" style="">Helio Canvas</h2>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-semibold" style="">Alex Admin</p>
+<p class="text-[10px] opacity-60" style="">System Administrator</p>
+</div>
+<div class="size-10 rounded-full bg-v-logo/20 border border-v-logo/30 bg-cover bg-center" data-alt="User profile avatar placeholder" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBuAyCOOeL6fRoSWj-EDGvBAWqH1wowJKorAkhQtzR31GSXpHHYxiZ8g34JOUsAdvsObnUCC0-n6CKSzpwVuKnWfYv-caLJ6CpqsnESsqy3UVNUiQYeaDEJsBnuWPjUF4Zkyg_1X5JLEKrjxSXrRT5Fzfh3vQX6hSSzCbRH2oUoiuep5ZnmVsuQgdxulCpDeBFHYSgPyNvQGII6EHwg6JqBXMnNfRZdfKVOqZbE5YZD3x_aFwEAUaM24nG1jBEMUne1aG8q8NOcnso&quot;);">
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-[240px] bg-v-sidebar text-slate-300 flex flex-col shrink-0">
+<div class="p-6 flex-1">
+<p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-4" style="">ADMIN PANEL</p>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white/5 border-l-[3px] border-v-accent text-white font-medium" href="#" style="">
+<span class="material-symbols-outlined text-v-accent" style="">dashboard_customize</span>
+<span class="text-sm" style="">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors border-l-[3px] border-transparent" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">group</span>
+<span class="text-sm text-slate-400" style="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors border-l-[3px] border-transparent" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">settings</span>
+<span class="text-sm text-slate-400" style="">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors border-l-[3px] border-transparent" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">analytics</span>
+<span class="text-sm text-slate-400" style="">Analytics and Audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors border-l-[3px] border-transparent" href="#" style="">
+<span class="material-symbols-outlined text-slate-400" style="">database</span>
+<span class="text-sm text-slate-400" style="">Master data management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto bg-white p-8">
+<div class="max-w-4xl mx-auto">
+<div class="mb-8">
+<h1 class="text-[32px] font-bold text-slate-900" style="">Create New Template</h1>
+<p class="text-slate-500 text-sm mt-1" style="">Configure the baseline metadata for your evaluation framework.</p>
+<div class="mt-8 flex items-center w-full">
+<div class="flex flex-col items-center flex-1 relative">
+<div class="size-10 rounded-full bg-white flex items-center justify-center text-v-accent font-bold z-10 border-2 border-v-accent" style="">1</div>
+<span class="text-[14px] font-medium text-v-accent mt-2" style="">1. General Info</span>
+<div class="absolute top-5 left-1/2 w-full h-[2px] bg-v-stepper-bg"></div>
+</div>
+<div class="flex flex-col items-center flex-1 relative">
+<div class="size-10 rounded-full bg-v-stepper-bg flex items-center justify-center text-slate-500 z-10" style="">2</div>
+<span class="text-[14px] font-medium text-slate-400 mt-2" style="">2. Stage Config</span>
+<div class="absolute top-5 left-1/2 w-full h-[2px] bg-v-stepper-bg"></div>
+</div>
+<div class="flex flex-col items-center flex-1 relative">
+<div class="size-10 rounded-full bg-v-stepper-bg flex items-center justify-center text-slate-500 z-10" style="">3</div>
+<span class="text-[14px] font-medium text-slate-400 mt-2" style="">3. Field and Sections</span>
+<div class="absolute top-5 left-1/2 w-full h-[2px] bg-v-stepper-bg"></div>
+</div>
+<div class="flex flex-col items-center flex-1 relative">
+<div class="size-10 rounded-full bg-v-stepper-bg flex items-center justify-center text-slate-500 z-10" style="">4</div>
+<span class="text-[14px] font-medium text-slate-400 mt-2" style="">4. Scoring</span>
+<div class="absolute top-5 left-1/2 w-full h-[2px] bg-v-stepper-bg"></div>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="size-10 rounded-full bg-v-stepper-bg flex items-center justify-center text-slate-500 z-10" style="">5</div>
+<span class="text-[14px] font-medium text-slate-400 mt-2" style="">5. Publish</span>
+</div>
+</div>
+</div>
+<div class="bg-v-card rounded-[24px] shadow-v-card p-[32px]">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-[14px] font-medium text-v-label" style="">
+                                        Template Name <span class="text-red-500" style="">*</span>
+</label>
+<input class="w-full rounded-[8px] border-v-input-border bg-white focus:border-v-accent focus:ring-v-accent h-11 text-sm transition-all" placeholder="e.g. AI Readiness Framework" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[14px] font-medium text-v-label" style="">
+                                        Category/Domain <span class="text-red-500" style="">*</span>
+</label>
+<select class="w-full rounded-[8px] border-v-input-border bg-white focus:border-v-accent focus:ring-v-accent h-11 text-sm">
+<option value="">Select Domain</option>
+<option value="ai">AI/ML Solutions</option>
+<option value="rpa">RPA Automation</option>
+<option value="cloud">Cloud Migration</option>
+<option value="finops">FinOps Optimization</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="text-[14px] font-medium text-v-label" style="">
+                                        Description <span class="text-red-500" style="">*</span>
+</label>
+<span class="text-[10px] text-slate-400 font-medium" style="">0/500 characters</span>
+</div>
+<textarea class="w-full rounded-[8px] border-v-input-border bg-white focus:border-v-accent focus:ring-v-accent text-sm transition-all resize-none" placeholder="Briefly describe the purpose of this evaluation template..." rows="4"></textarea>
+</div>
+<div class="flex flex-col gap-3">
+<label class="text-[14px] font-medium text-v-label" style="">Template Icon</label>
+<div class="grid grid-cols-6 gap-3 sm:grid-cols-12 md:grid-cols-6 lg:grid-cols-12">
+<button class="aspect-square rounded-[8px] border-2 border-v-accent bg-v-accent/5 flex items-center justify-center text-v-accent transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">psychology</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">smart_toy</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">hub</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">cloud</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">database</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">shield</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">insights</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">precision_manufacturing</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">speed</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">settings_suggest</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">account_tree</span>
+</button>
+<button class="aspect-square rounded-[8px] border border-v-input-border bg-white hover:border-v-accent flex items-center justify-center text-slate-500 transition-all" type="button" style="">
+<span class="material-symbols-outlined" style="">memory</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col gap-3">
+<label class="text-[14px] font-medium text-v-label" style="">Theme Color</label>
+<div class="flex flex-wrap gap-2">
+<button class="size-8 rounded-full bg-[#02F576] flex items-center justify-center border-2 border-white ring-2 ring-v-accent" type="button" style="">
+<span class="material-symbols-outlined text-[16px] text-v-sidebar font-bold" style="">check</span>
+</button>
+<button class="size-8 rounded-full bg-blue-500 border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-indigo-500 border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-[#5F2CFF] border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-pink-500 border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-orange-500 border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-amber-500 border-2 border-white" type="button" style=""></button>
+<button class="size-8 rounded-full bg-slate-500 border-2 border-white" type="button" style=""></button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<label class="text-[14px] font-medium text-v-label" style="">Search Tags</label>
+<div class="w-full flex flex-wrap gap-2 p-1.5 rounded-[8px] border border-v-input-border bg-white min-h-[44px]">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-v-accent/10 text-v-accent text-xs font-semibold" style="">
+                                            automation
+                                            <span class="material-symbols-outlined text-sm cursor-pointer hover:text-slate-900 transition-colors" style="">close</span>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-v-accent/10 text-v-accent text-xs font-semibold" style="">
+                                            customer-facing
+                                            <span class="material-symbols-outlined text-sm cursor-pointer hover:text-slate-900 transition-colors" style="">close</span>
+</span>
+<input class="border-none bg-transparent h-6 text-xs focus:ring-0 flex-1 min-w-[60px]" placeholder="Add tag..." type="text">
+</div>
+</div>
+</div>
+</form>
+</div>
+<div class="mt-8 flex items-center justify-between">
+<button class="text-v-cancel font-medium text-sm hover:text-slate-900 transition-colors" style="">
+                            Cancel
+                        </button>
+<button class="flex items-center gap-2 px-8 py-2.5 rounded-[8px] bg-v-accent text-white font-medium text-sm hover:bg-v-accent/90 shadow-lg shadow-v-accent/20 transition-all" style="">
+                            Next: Stage Config
+                            <span class="material-symbols-outlined text-lg" style="">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

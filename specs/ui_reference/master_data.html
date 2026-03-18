@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5F2CFF",
+                        "logo-green": "#0eaf99",
+                        "topnav": "#151C28",
+                        "sidebar": "#1E2345",
+                        "page-bg": "#FFFFFF",
+                        "table-border": "#E7E8EB",
+                        "severity-high": "#FF4D4D",
+                        "severity-medium": "#FFB020",
+                        "severity-low": "#02F576",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    boxShadow: {
+                        "panel": "0px 4px 16px rgba(21,28,40,0.08)",
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px", "badge": "4px", "btn": "8px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Montserrat', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<title>Master Data - Risk Categories View</title>
+</head>
+<body class="bg-page-bg text-slate-900 min-h-screen flex flex-col">
+<header class="h-16 bg-topnav flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-3">
+<div class="size-8 bg-logo-green rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white">grid_view</span>
+</div>
+<h1 class="text-white text-xl font-bold tracking-tight">Helio Canvas <span class="text-logo-green font-medium text-sm ml-2">2.0</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="h-8 w-8 rounded-full bg-logo-green/20 border border-logo-green/40 overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLP0wozv47YhRXXRurMGCuDK-7QyuQYd7bPtJy7KCVLGbWhmt1A0MC82u2QUW1koGqhHh0l4FcGy-i8BZh3ZQmQ_RdmlHT-92yECFGI2zAN8eenOelYhb3-rRXVsBWMOG4u9zoAXEWHcJxNxD4DCvOTU7CSs1apFU8nA01sBEL4nIExOEntk9wCLVgTH_YwdFuWJDo8BJehPrJdhovgSP4W0QJVa815rQj_PoEEvjv17oP8xroJlGysRg5-VvYCmnoLlcFPXVdE1o"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 bg-sidebar shrink-0 flex flex-col py-4 border-t border-white/10">
+<nav class="flex-1 px-3 space-y-1">
+<div class="px-3 py-2">
+<p class="text-[10px] font-medium text-[#9EA1AE] uppercase tracking-[0.1em]">Admin Panel</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-btn transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard_customize</span>
+<span class="text-sm font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-btn transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-btn transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-white/5 rounded-btn transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="text-sm font-medium">Analytics &amp; Audit Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-white/15 text-white rounded-btn border-l-[3px] border-primary" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary">database</span>
+<span class="text-sm font-medium">Master Data Management</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 flex overflow-hidden bg-page-bg">
+<div class="w-80 border-r border-table-border flex flex-col bg-white shadow-panel z-10">
+<div class="p-4 border-b border-table-border">
+<h2 class="text-lg font-bold text-slate-800">Data Categories</h2>
+<p class="text-xs text-slate-500">Select a category to manage values</p>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-3 rounded-btn text-slate-600 hover:bg-slate-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-slate-400">account_tree</span>
+<span class="text-sm font-medium">Organizational Taxonomy</span>
+</div>
+<span class="text-xs font-medium text-slate-400">128</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-3 rounded-btn text-slate-600 hover:bg-slate-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-slate-400">trending_up</span>
+<span class="text-sm font-medium">KPIs</span>
+</div>
+<span class="text-xs font-medium text-slate-400">42</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-btn text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">code</span>
+<span class="text-sm font-medium">Solution Types</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-btn text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">devices</span>
+<span class="text-sm font-medium">Digital Platforms</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-3 rounded-btn text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">memory</span>
+<span class="text-sm font-medium">ML Models</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-3 rounded-btn bg-[#5F2CFF]/15 text-primary border-l-[3px] border-l-primary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">gpp_maybe</span>
+<span class="text-sm font-semibold">Risk Categories</span>
+</div>
+<span class="text-xs font-bold bg-primary text-white px-2 py-0.5 rounded-full">14</span>
+</button>
+</div>
+</div>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden p-6 gap-6 bg-page-bg">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<h3 class="text-[32px] font-bold text-slate-900 leading-tight">Risk Categories</h3>
+<p class="text-slate-500 text-sm mt-1">Manage the categories used for assessing project and technical risks.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 font-semibold rounded-btn hover:bg-slate-50 transition-colors text-sm">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                            Import from CSV
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white font-semibold rounded-btn hover:bg-primary/90 transition-colors text-sm shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            Add Value
+                        </button>
+</div>
+</div>
+<div class="flex items-center relative max-w-md">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-table-border rounded-btn focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm shadow-sm" placeholder="Search Risk Categories..." type="text"/>
+</div>
+<div class="flex-1 overflow-hidden bg-white rounded-xl shadow-panel flex flex-col border border-table-border">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-sidebar text-white border-b border-table-border">
+<th class="px-4 py-4 w-12 text-center border-b border-table-border"></th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider border-b border-table-border">VALUE</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider border-b border-table-border">LABEL</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider border-b border-table-border">SEVERITY</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider border-b border-table-border">DESCRIPTION</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider border-b border-table-border">STATUS</th>
+<th class="px-6 py-4 text-[14px] font-semibold uppercase tracking-wider w-24 border-b border-table-border">Actions</th>
+</tr>
+</thead>
+<tbody class="text-slate-700 bg-white">
+<tr class="hover:bg-slate-50 transition-colors group border-b border-table-border">
+<td class="px-4 py-4 text-center cursor-move text-slate-300 group-hover:text-slate-500">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[16px] text-slate-500 font-normal">data_privacy</td>
+<td class="px-6 py-4 text-[16px] text-slate-900 font-normal">Data Privacy</td>
+<td class="px-6 py-4 text-[16px] font-normal">
+<span class="px-2 py-1 bg-severity-high/10 border border-severity-high/20 rounded-badge text-xs font-semibold text-severity-high">High</span>
+</td>
+<td class="px-6 py-4 text-[16px] font-normal">Compliance with GDPR, CCPA, and data handling laws.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-badge bg-primary/10 text-primary text-xs font-bold">
+<span class="size-1.5 rounded-full bg-primary"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group border-b border-table-border">
+<td class="px-4 py-4 text-center cursor-move text-slate-300 group-hover:text-slate-500">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[16px] text-slate-500 font-normal">implementation</td>
+<td class="px-6 py-4 text-[16px] text-slate-900 font-normal">Implementation</td>
+<td class="px-6 py-4 text-[16px] font-normal">
+<span class="px-2 py-1 bg-severity-medium/10 border border-severity-medium/20 rounded-badge text-xs font-semibold text-severity-medium">Medium</span>
+</td>
+<td class="px-6 py-4 text-[16px] font-normal">Risks related to technical complexity and integration.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-badge bg-primary/10 text-primary text-xs font-bold">
+<span class="size-1.5 rounded-full bg-primary"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group border-b border-table-border">
+<td class="px-4 py-4 text-center cursor-move text-slate-300 group-hover:text-slate-500">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[16px] text-slate-500 font-normal">operational</td>
+<td class="px-6 py-4 text-[16px] text-slate-900 font-normal">Operational</td>
+<td class="px-6 py-4 text-[16px] font-normal">
+<span class="px-2 py-1 bg-severity-low/10 border border-severity-low/20 rounded-badge text-xs font-semibold text-severity-low">Low</span>
+</td>
+<td class="px-6 py-4 text-[16px] font-normal">Potential impact on business-as-usual operations.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-badge bg-primary/10 text-primary text-xs font-bold">
+<span class="size-1.5 rounded-full bg-primary"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group border-b border-table-border">
+<td class="px-4 py-4 text-center cursor-move text-slate-300 group-hover:text-slate-500">
+<span class="material-symbols-outlined">drag_indicator</span>
+</td>
+<td class="px-6 py-4 font-mono text-[16px] text-slate-500 font-normal">biased_data</td>
+<td class="px-6 py-4 text-[16px] text-slate-900 font-normal">Bias and Fairness</td>
+<td class="px-6 py-4 text-[16px] font-normal">
+<span class="px-2 py-1 bg-severity-high/10 border border-severity-high/20 rounded-badge text-xs font-semibold text-severity-high">High</span>
+</td>
+<td class="px-6 py-4 text-[16px] font-normal">Risks of unethical model outputs due to biased training data.</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-badge bg-primary/10 text-primary text-xs font-bold">
+<span class="size-1.5 rounded-full bg-primary"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<button class="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/5 rounded">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-auto border-t border-table-border p-4 bg-slate-50 flex items-center justify-between">
+<span class="text-xs text-slate-500 font-medium">Showing 4 of 14 values</span>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded border border-table-border bg-white text-slate-400 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="text-xs font-bold px-2">1</span>
+<button class="p-1 rounded border border-table-border bg-white text-slate-600 hover:bg-slate-50">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

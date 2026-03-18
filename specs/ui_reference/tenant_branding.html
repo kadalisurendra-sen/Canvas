@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Helio Canvas Admin - Tenant Settings Master List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5F2CFF",
+                        "nav-bg": "#1E2345",
+                        "background-light": "#F5F7FA",
+                        "background-dark": "#0f2321",
+                        "success": "#02F576",
+                        "success-text": "#151C28",
+                        "trialing": "#E7E8EB",
+                        "border-color": "#CFD0D6",
+                        "row-alt": "#F3F4F4",
+                        "v-royal-purple": "#5F2CFF"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "montserrat": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex flex-col h-screen">
+<header class="bg-nav-bg h-16 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-3">
+<div class="text-primary">
+<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z"></path>
+</svg>
+</div>
+<h1 class="text-white text-xl font-bold tracking-tight font-montserrat">Helio Canvas</h1>
+</div>
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh8vXfdMsno61iQgHkylhQmjTtQa6ndsXfjjxW3hozOLDef8hv0VRLW1vR1NVbrDAuZAq2wq5jBV2sBSMaNT9AFGQ-zpiKJrLJDnW5FYjO3uis45dVQCKMhf2vKi-2oqc76iZ2rY2WJJjwPHHQo1Xa1_UXrpgmIrBj4VUgBFUGsBe13sxex4wNj_QZqsQANrLT8IZArDDHyduMNAxrBPDUUygdBZSINhQCdc5vqEXfVuVFCUOiUeg00JsOfrbeGvEFzdezQ8UsaQ8"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-72 bg-nav-bg border-t border-white/10 flex flex-col shrink-0 overflow-y-auto">
+<div class="p-6">
+<div class="flex items-center mb-8">
+<h2 class="text-white font-semibold text-sm uppercase tracking-wider opacity-60">Admin Panel</h2>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard_customize</span>
+<span class="text-sm font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 pl-3 pr-4 py-3 bg-white/5 border-l-[4px] border-[#5F2CFF] text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-v-royal-purple" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="text-sm font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Analytics and audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="text-sm font-medium">Master data management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col overflow-y-auto bg-slate-50 dark:bg-slate-950">
+<div class="px-8 pt-8 pb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<h2 class="text-[32px] font-bold font-montserrat text-slate-900 dark:text-white">Tenant Settings</h2>
+<button class="bg-[#5F2CFF] text-white px-5 py-2.5 rounded-lg font-semibold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                        Add New Tenant
+                    </button>
+</div>
+</div>
+<div class="px-8 pb-8">
+<div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 rounded-[8px] border border-[#CFD0D6] dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:ring-[#5F2CFF] focus:border-[#5F2CFF] outline-none transition-all shadow-sm" placeholder="Search tenants by name or ID..." type="text"/>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filters
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined text-sm">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-nav-bg h-[48px]">
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white">Tenant Name</th>
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white">Plan</th>
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white">Status</th>
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white">User Count</th>
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white">Created Date</th>
+<th class="p-[16px] text-[14px] font-semibold font-montserrat tracking-wider text-white text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="bg-[#FFFFFF] h-[48px] hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="p-[16px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<img alt="Acme Corp" class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe5tjnYCLFqJrJxlclhenOFa6iFAug10MYN96C3NN8XMzMwSi2L0tafTU0Jh2y-3XXzOzEz1-RnbzRAPy523NNbu58nStduh2JH5iPQUTZQYooSudvWV0Z08JXc23wPUwAo6qKHU7hVEzZ2uPCG1WLLsqFeouNVq6G06BAmOdj2ZeEGt4EqcwoReWIQRMqYMxazVCxXnmb5jZlFK0W85K94XorX1CBesQzQvGLX1c7uF6SUuhWnI6LZf2xX_35K73ulPYb5L19KdY"/>
+</div>
+<div>
+<div class="font-semibold text-slate-900 dark:text-white">Acme Corporation</div>
+<div class="text-xs text-slate-500">acme-corp.heliocanvas.com</div>
+</div>
+</div>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">Enterprise Plus</span>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#02F576] text-[#151C28]">
+                                    Active
+                                </span>
+</td>
+<td class="p-[16px] text-sm text-slate-600 dark:text-slate-400 font-medium">1,248 users</td>
+<td class="p-[16px] text-sm text-slate-500 dark:text-slate-400">Oct 12, 2023</td>
+<td class="p-[16px] text-right">
+<button class="text-[#5F2CFF] font-semibold text-sm hover:underline flex items-center gap-1 ml-auto">
+                                    Manage <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="bg-[#F3F4F4] h-[48px] hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
+<td class="p-[16px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400">corporate_fare</span>
+</div>
+<div>
+<div class="font-semibold text-slate-900 dark:text-white">Global Tech Solutions</div>
+<div class="text-xs text-slate-500">gts-global.heliocanvas.com</div>
+</div>
+</div>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">Pro Tier</span>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#02F576] text-[#151C28]">
+                                    Active
+                                </span>
+</td>
+<td class="p-[16px] text-sm text-slate-600 dark:text-slate-400 font-medium">452 users</td>
+<td class="p-[16px] text-sm text-slate-500 dark:text-slate-400">Jan 05, 2024</td>
+<td class="p-[16px] text-right">
+<button class="text-[#5F2CFF] font-semibold text-sm hover:underline flex items-center gap-1 ml-auto">
+                                    Manage <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="bg-[#FFFFFF] h-[48px] hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
+<td class="p-[16px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400">storefront</span>
+</div>
+<div>
+<div class="font-semibold text-slate-900 dark:text-white">Lumina Retail</div>
+<div class="text-xs text-slate-500">lumina-retail.heliocanvas.com</div>
+</div>
+</div>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">Standard</span>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#E7E8EB] text-slate-800">
+                                    Trialing
+                                </span>
+</td>
+<td class="p-[16px] text-sm text-slate-600 dark:text-slate-400 font-medium">12 users</td>
+<td class="p-[16px] text-sm text-slate-500 dark:text-slate-400">Feb 28, 2024</td>
+<td class="p-[16px] text-right">
+<button class="text-[#5F2CFF] font-semibold text-sm hover:underline flex items-center gap-1 ml-auto">
+                                    Manage <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="bg-[#F3F4F4] h-[48px] hover:bg-slate-50/80 dark:hover:bg-slate-800/30 transition-colors">
+<td class="p-[16px]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-slate-400">architecture</span>
+</div>
+<div>
+<div class="font-semibold text-slate-900 dark:text-white">Vertex Architecture</div>
+<div class="text-xs text-slate-500">vertex-arc.heliocanvas.com</div>
+</div>
+</div>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">Enterprise</span>
+</td>
+<td class="p-[16px]">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-500">
+                                    Suspended
+                                </span>
+</td>
+<td class="p-[16px] text-sm text-slate-600 dark:text-slate-400 font-medium">89 users</td>
+<td class="p-[16px] text-sm text-slate-500 dark:text-slate-400">Nov 15, 2022</td>
+<td class="p-[16px] text-right">
+<button class="text-[#5F2CFF] font-semibold text-sm hover:underline flex items-center gap-1 ml-auto">
+                                    Manage <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing <span class="font-medium text-slate-700 dark:text-slate-300">1</span> to <span class="font-medium text-slate-700 dark:text-slate-300">4</span> of <span class="font-medium text-slate-700 dark:text-slate-300">12</span> results</span>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-400 cursor-not-allowed opacity-50">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

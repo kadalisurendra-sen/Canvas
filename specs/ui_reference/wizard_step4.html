@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5F2CFF",
+                        "navy-deep": "#1E2345",
+                        "background-light": "#FFFFFF",
+                        "background-dark": "#141e15",
+                        "card-bg": "#F3F4F4",
+                        "text-gray": "#6D7283",
+                        "virtusa-purple": "#5F2CFF",
+                        "virtusa-green": "#00D67D",
+                        "virtusa-blue": "#00A1FF",
+                        "sidebar-label": "#9EA1AE"
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<title>Admin Template Wizard - Scoring &amp; Formulas</title>
+</head>
+<body class="bg-background-light font-display text-slate-900 min-h-screen flex flex-col">
+<header class="bg-navy-deep text-white px-6 py-3 flex items-center justify-between shadow-md sticky top-0 z-50 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 p-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary text-2xl" style="">grid_view</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight" style="">Helio Canvas <span class="text-primary/80 font-normal text-sm ml-2" style="">2.0</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right hidden sm:block">
+<p class="text-xs text-slate-300" style="">Administrator</p>
+<p class="text-sm font-medium" style="">Alex Rivera</p>
+</div>
+<div class="size-10 rounded-full bg-slate-700 border-2 border-primary/30 overflow-hidden">
+<img alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6vj10h0gCIBA07-pkIawAysK4Bk-xek650HbFlacLOhm4iLEkq5kwI62wRg24Dc24UhNnBvmIBR3x8JOOzoeSi_XpYk7i35cVxmu2_48Rc6Y0ueIBYc6xJ6OS63RDM-PKsP34WeqzaNznAkjKSf4M8kGX3W9XTADE25n__7rjhQnHNmXdzT5fhzRM1l7oCWMu_yqu5desb9bkwSuAAUbPAH6Mgl9l-0ZvSydO_ItCc1kQMYQjgeFUQdz3Ou2kE9cfeo01tDtYALc" class="" style="">
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<aside class="w-64 bg-navy-deep text-slate-300 flex flex-col">
+<nav class="p-4 space-y-2 flex-1">
+<div class="px-4 py-2 mt-2 mb-1">
+<span class="text-[11px] font-medium tracking-[0.1em] text-[#9EA1AE] uppercase" style="">ADMIN PANEL</span>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-[#FFFFFF] border-l-[3px] border-primary" href="#" style="">
+<span class="material-symbols-outlined text-primary" style="">description</span>
+<span class="text-sm font-medium" style="">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="text-sm font-medium" style="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">corporate_fare</span>
+<span class="text-sm font-medium" style="">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">analytics</span>
+<span class="text-sm font-medium" style="">Analytics and Audit logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">database</span>
+<span class="text-sm font-medium" style="">Master data management</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 overflow-y-auto p-8 space-y-8 bg-[#FFFFFF]">
+<div class="bg-card-bg rounded-2xl shadow-sm border border-slate-200 p-10">
+<div class="max-w-4xl mx-auto">
+<div class="relative flex items-center justify-between">
+<div class="absolute top-5 left-0 w-full h-[1px] bg-[#E7E8EB] -z-0"></div>
+<div class="absolute top-5 left-0 w-3/4 h-[1px] bg-[#5F2CFF] -z-0"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-10 rounded-full bg-[#5F2CFF] text-white flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-xs font-medium text-[#5F2CFF]" style="">1. General Info</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-10 rounded-full bg-[#5F2CFF] text-white flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-xs font-medium text-[#5F2CFF]" style="">2. Stage Config</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-10 rounded-full bg-[#5F2CFF] text-white flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-lg" style="">check</span>
+</div>
+<span class="text-xs font-medium text-[#5F2CFF]" style="">3. Fields and Sections</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-10 rounded-full bg-white border border-[#5F2CFF] text-[#5F2CFF] flex items-center justify-center font-bold mb-3" style="">
+                                4
+                            </div>
+<span class="text-xs font-bold text-[#5F2CFF]" style="">4. Scoring</span>
+</div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="size-10 rounded-full bg-[#E7E8EB] text-[#9EA1AE] flex items-center justify-center font-bold mb-3" style="">
+                                5
+                            </div>
+<span class="text-xs font-medium text-[#9EA1AE]" style="">5. Publish</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+<div class="bg-card-bg rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="p-8 pb-4">
+<h3 class="text-lg font-bold text-navy-deep" style="">Stage Weights</h3>
+<p class="text-sm text-slate-500 mt-1" style="">Define how each stage contributes to the final score.</p>
+</div>
+<div class="p-8 pt-0">
+<div class="grid grid-cols-1 md:grid-cols-[1fr_120px] gap-8 mt-6">
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-semibold">
+<span class="text-slate-700" style="">Desirable</span>
+<span class="text-primary bg-primary/10 px-2 py-0.5 rounded" style="">25%</span>
+</div>
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" type="range" value="25">
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-semibold">
+<span class="text-slate-700" style="">Feasible</span>
+<span class="text-primary bg-primary/10 px-2 py-0.5 rounded" style="">40%</span>
+</div>
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" type="range" value="40">
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm font-semibold">
+<span class="text-slate-700" style="">Viable</span>
+<span class="text-primary bg-primary/10 px-2 py-0.5 rounded" style="">35%</span>
+</div>
+<input class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" type="range" value="35">
+</div>
+</div>
+<div class="flex flex-col items-center justify-center gap-2">
+<div class="h-40 w-12 bg-slate-200 rounded-lg overflow-hidden flex flex-col-reverse">
+<div class="bg-virtusa-blue h-[25%]" title="Desirable"></div>
+<div class="bg-virtusa-green h-[40%]" title="Feasible"></div>
+<div class="bg-virtusa-purple h-[35%]" title="Viable"></div>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" style="">Distribution</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-bg rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="p-8 pb-4">
+<h3 class="text-lg font-bold text-navy-deep" style="">Qualification Thresholds</h3>
+<p class="text-sm text-slate-500 mt-1" style="">Set conditions for progressing through stages.</p>
+</div>
+<div class="p-8 pt-0 overflow-x-auto">
+<table class="w-full text-base text-left font-normal mt-4">
+<thead class="bg-navy-deep text-white font-medium">
+<tr>
+<th class="py-3 px-4 rounded-tl-lg" style="">Stage Name</th>
+<th class="py-3 px-4" style="">Min. Score to Pass</th>
+<th class="py-3 px-4 rounded-tr-lg" style="">Action on Fail</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200">
+<tr>
+<td class="py-4 px-4 font-normal text-slate-700" style="">Desirable</td>
+<td class="py-4 px-4" style="">
+<input class="w-20 rounded border-slate-300 focus:ring-primary focus:border-primary text-base" type="number" value="60">
+</td>
+<td class="py-4 px-4" style="">
+<select class="rounded border-slate-300 text-base focus:ring-primary focus:border-primary w-full">
+<option selected="">Warn</option>
+<option>Block</option>
+<option>Allow</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="py-4 px-4 font-normal text-slate-700" style="">Feasible</td>
+<td class="py-4 px-4" style="">
+<input class="w-20 rounded border-slate-300 focus:ring-primary focus:border-primary text-base" type="number" value="50">
+</td>
+<td class="py-4 px-4" style="">
+<select class="rounded border-slate-300 text-base focus:ring-primary focus:border-primary w-full">
+<option>Warn</option>
+<option selected="">Block</option>
+<option>Allow</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="py-4 px-4 font-normal text-slate-700" style="">Viable</td>
+<td class="py-4 px-4" style="">
+<input class="w-20 rounded border-slate-300 focus:ring-primary focus:border-primary text-base" type="number" value="40">
+</td>
+<td class="py-4 px-4" style="">
+<select class="rounded border-slate-300 text-base focus:ring-primary focus:border-primary w-full">
+<option>Warn</option>
+<option>Block</option>
+<option selected="">Allow</option>
+</select>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-8 pb-4">
+<button class="px-6 py-2.5 text-text-gray font-semibold hover:text-navy-deep transition-all flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-sm" style="">arrow_back</span> Back
+                </button>
+<div class="flex gap-4">
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-bold hover:shadow-lg hover:bg-primary/90 transition-all flex items-center gap-2" style="">
+                        Next: Publish <span class="material-symbols-outlined text-sm font-bold" style="">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

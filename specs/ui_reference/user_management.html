@@ -1,0 +1,346 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --primary: #13ecb6;
+            --navy-dark: #1E2345;
+            --header-navy: #151C28;
+            --sidebar-navy: #1E2345;
+            --bg-light: #F5F7FA;
+            --v-royal-purple: #5F2CFF;
+            --virtusa-green: #02F576;
+            --badge-gray: #E7E8EB;
+            --border-gray: #CFD0D6;
+        }
+        @layer base {
+            body {
+                font-family: 'Montserrat', sans-serif;
+            }
+        }
+        .table-header {
+            background-color: var(--navy-dark);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecb6",
+                        "navy-custom": "#1E2345",
+                        "header-navy": "#151C28",
+                        "sidebar-navy": "#1E2345",
+                        "bg-light": "#F5F7FA",
+                        "virtusa-purple": "#5F2CFF",
+                        "v-royal-purple": "#5F2CFF",
+                        "virtusa-green": "#02F576",
+                        "badge-gray": "#E7E8EB",
+                        "border-gray": "#CFD0D6"
+                    }
+                }
+            }
+        }
+    </script>
+<title>Virtusa DS 3.0 User Management</title>
+</head>
+<body class="bg-bg-light text-slate-900">
+<header class="flex items-center justify-between bg-header-navy px-6 py-3 sticky top-0 z-50 shadow-md h-16">
+<div class="flex items-center gap-4 text-white">
+<div class="size-7 text-virtusa-green">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Helio Canvas 2.0</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 border-l border-white/20 pl-4">
+<div class="text-right hidden sm:block">
+<p class="text-[10px] uppercase font-bold text-white/50 leading-none mb-1">System Admin</p>
+<p class="text-sm font-semibold text-white leading-none">Alex Rivera</p>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-virtusa-green/30" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCoqDUl6nkOo0az4b2Rg5mkYmXnJvRnyOyGaYDo-4oBptIUejdJIZl_dKF6f_wjZM3jxucf761ymRBeZyZQGF7zuNd6CvncAznukdLAK_0m_RXAYcEIgjXYEaTomoohOIgZIJu9MjAIDSxUJpnZ0JzSHpO5MM2eCdpL1uBHyFOOABP82thpR_NHTHTHmPtmBE8ZQpTiN84uaOAKUy2IyC7xv91LlbMfxKpnlTVZZ4vSZV7fdyN7O32YjP1-u1v8o9jmIegpW_jbuAM");'></div>
+</div>
+</div>
+</header>
+<div class="flex min-h-[calc(100vh-64px)]">
+<aside class="w-72 bg-sidebar-navy flex flex-col border-r border-slate-800 shrink-0">
+<div class="p-6">
+<h2 class="text-slate-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-6">Admin Panel</h2>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">dashboard_customize</span>
+<span class="text-sm font-medium">Template Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 text-white border-l-4 border-virtusa-purple transition-all" href="#">
+<span class="material-symbols-outlined text-xl text-v-royal-purple">group</span>
+<span class="text-sm font-bold">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">corporate_fare</span>
+<span class="text-sm font-medium">Tenant Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">monitoring</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined text-xl">database</span>
+<span class="text-sm font-medium">Master data management</span>
+</a>
+</nav>
+</div>
+</aside>
+<main class="flex-1 p-8 overflow-y-auto">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 tracking-tight">User Management</h2>
+<p class="text-slate-500 text-sm mt-1">Manage users and roles, and monitor user activity across all tenants.</p>
+</div>
+<button class="flex items-center gap-2 bg-v-royal-purple hover:bg-v-royal-purple/90 text-white font-bold px-5 py-2.5 rounded-lg shadow-sm transition-all active:scale-95">
+<span class="material-symbols-outlined">person_add</span>
+                    Invite User
+                </button>
+</div>
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="p-4 border-b border-slate-100 bg-white">
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex-1 min-w-[280px]">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-virtusa-purple/20 focus:border-virtusa-purple transition-all text-sm outline-none" placeholder="Search by name or email..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<select class="text-sm border-border-gray bg-white rounded-lg px-3 py-2 pr-8 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>All Roles</option>
+<option>Admin</option>
+<option>Contributor</option>
+<option>Viewer</option>
+</select>
+<select class="text-sm border-border-gray bg-white rounded-lg px-3 py-2 pr-8 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>All Status</option>
+<option>Active</option>
+<option>Invited</option>
+<option>Deactivated</option>
+</select>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-navy-custom text-white uppercase text-[11px] font-bold tracking-widest h-12">
+<th class="px-6 py-0 w-12"><input class="rounded border-white/20 bg-white/10 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></th>
+<th class="px-6 py-0">Name</th>
+<th class="px-6 py-0">Email</th>
+<th class="px-6 py-0">Role</th>
+<th class="px-6 py-0">Status</th>
+<th class="px-6 py-0">Last Login</th>
+<th class="px-6 py-0 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="bg-white hover:bg-slate-50 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 flex items-center justify-center text-navy-custom font-bold text-xs border border-slate-200">SJ</div>
+<span class="font-semibold text-slate-800">Sarah Johnson</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-600">sarah.j@helio-tenant.com</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-700">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option selected="">Admin</option>
+<option>Contributor</option>
+<option>Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-virtusa-green/20 text-green-800 border border-virtusa-green/50 uppercase">Active</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-500">Mar 4, 2026</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="bg-slate-50 hover:bg-slate-100 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white flex items-center justify-center text-navy-custom font-bold text-xs border border-slate-200">MC</div>
+<span class="font-semibold text-slate-800">Michael Chen</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-600">m.chen@venture-corp.io</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-700">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>Admin</option>
+<option selected="">Contributor</option>
+<option>Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-virtusa-green/20 text-green-800 border border-virtusa-green/50 uppercase">Active</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-500">Mar 3, 2026</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="bg-white hover:bg-slate-50 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 flex items-center justify-center text-navy-custom font-bold text-xs border border-slate-200">ER</div>
+<span class="font-semibold text-slate-800">Emily Rodriguez</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-600">emily.rod@helio.com</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-700">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>Admin</option>
+<option>Contributor</option>
+<option selected="">Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-virtusa-green/20 text-green-800 border border-virtusa-green/50 uppercase">Active</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-500">Mar 1, 2026</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="bg-slate-50 hover:bg-slate-100 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white flex items-center justify-center text-navy-custom font-bold text-xs border border-slate-200">DK</div>
+<span class="font-semibold text-slate-800">David Kim</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-600">d.kim@startup-hub.net</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-700">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>Admin</option>
+<option selected="">Contributor</option>
+<option>Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-badge-gray text-slate-600 border border-slate-300 uppercase">Invited</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-400 italic">Pending...</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="bg-white hover:bg-slate-50 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 flex items-center justify-center text-navy-custom font-bold text-xs border border-slate-200">AP</div>
+<span class="font-semibold text-slate-800">Anna Petrov</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-600">anna.p@eu-ventures.com</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-700">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border">
+<option>Admin</option>
+<option selected="">Contributor</option>
+<option>Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-virtusa-green/20 text-green-800 border border-virtusa-green/50 uppercase">Active</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-500">Feb 28, 2026</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+<tr class="bg-slate-50 hover:bg-slate-100 transition-colors h-12">
+<td class="px-6 py-0"><input class="rounded border-slate-300 text-virtusa-purple focus:ring-virtusa-purple" type="checkbox"/></td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-white flex items-center justify-center text-slate-400 font-bold text-xs border border-slate-200">JW</div>
+<span class="font-semibold text-slate-400">James Wilson</span>
+</div>
+</td>
+<td class="px-6 py-0 text-sm text-slate-400 italic">j.wilson@old-partner.com</td>
+<td class="px-6 py-0">
+<div class="flex items-center gap-1.5 text-sm text-slate-400">
+<select class="text-sm border-border-gray bg-white rounded-lg px-2 py-1 focus:ring-virtusa-purple focus:border-virtusa-purple border" disabled="">
+<option>Admin</option>
+<option>Contributor</option>
+<option selected="">Viewer</option>
+</select>
+</div>
+</td>
+<td class="px-6 py-0">
+<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-500 border border-slate-300 uppercase">Deactivated</span>
+</td>
+<td class="px-6 py-0 text-sm text-slate-400">Jan 15, 2026</td>
+<td class="px-6 py-0 text-right">
+<div class="flex justify-end gap-3 text-virtusa-purple">
+<button class="hover:opacity-80 transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:opacity-80 transition-colors text-red-500"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="text-sm text-slate-500">Showing <span class="font-semibold text-slate-900">1-6</span> of <span class="font-semibold text-slate-900">24</span> users</p>
+<div class="flex items-center gap-1">
+<button class="p-2 rounded hover:bg-slate-100 text-slate-400 disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-navy-custom text-white font-bold text-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-sm">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-sm">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 text-sm">4</button>
+<button class="p-2 rounded hover:bg-slate-100 text-slate-600">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

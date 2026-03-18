@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Project - Helio Canvas 2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "v-royal-purple": "#5F2CFF",
+                        "v-dark": "#151C28",
+                        "v-muted": "#6D7283",
+                        "v-border": "#E7E8EB",
+                        "v-input-border": "#CFD0D6",
+                        "v-bg-overlay": "rgba(21,28,40,0.6)",
+                        "v-chip-bg": "#F3F4F4",
+                        "v-chip-text": "#3D4353",
+                        "v-info-bg": "#F0F4FF"
+                    },
+                    fontFamily: {
+                        "sans": ["Montserrat", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'modal': '0px 8px 32px rgba(21, 28, 40, 0.16)',
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .dashboard-blur {
+            filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-v-dark antialiased overflow-hidden">
+<div class="fixed inset-0 z-0 flex flex-col dashboard-blur">
+<header class="h-16 bg-white border-b border-gray-200 flex items-center px-8 justify-between">
+<div class="flex items-center gap-8">
+<div class="font-bold text-xl text-v-dark">virtusa <span class="text-v-royal-purple">helio</span></div>
+<nav class="flex gap-6 text-sm font-medium text-v-muted">
+<span class="text-v-royal-purple border-b-2 border-v-royal-purple h-16 flex items-center">Projects</span>
+<span class="h-16 flex items-center">Templates</span>
+<span class="h-16 flex items-center">Team</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-gray-200"></div>
+</div>
+</header>
+<main class="flex-1 p-8 bg-[#F8F9FA]">
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-2xl font-bold">My Projects</h1>
+<button class="bg-v-royal-purple text-white px-4 py-2 rounded-lg font-medium">Create New Project</button>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="bg-white p-6 rounded-xl border border-gray-100 h-48"></div>
+<div class="bg-white p-6 rounded-xl border border-gray-100 h-48"></div>
+<div class="bg-white p-6 rounded-xl border border-gray-100 h-48"></div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 z-50 bg-v-bg-overlay flex items-center justify-center p-4">
+<div class="bg-white w-full max-w-[640px] rounded-[16px] shadow-modal flex flex-col overflow-hidden">
+<div class="px-8 pt-8 pb-5 flex justify-between items-center border-b border-v-border">
+<h2 class="text-[24px] font-semibold text-v-dark">Create New Project</h2>
+<button class="text-v-dark hover:bg-gray-100 p-1 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<div class="p-8 space-y-6 overflow-y-auto">
+<div class="space-y-2">
+<label class="block text-[14px] font-medium text-v-dark" for="project-name">
+                        Project Name <span class="text-red-500">*</span>
+</label>
+<input class="w-full px-4 py-3 border border-v-input-border rounded-[8px] focus:ring-1 focus:ring-v-royal-purple focus:border-v-royal-purple text-[14px] placeholder:text-v-muted" id="project-name" placeholder="Enter project name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-[14px] font-medium text-v-dark" for="description">
+                        Project Description
+                    </label>
+<textarea class="w-full px-4 py-3 border border-v-input-border rounded-[8px] focus:ring-1 focus:ring-v-royal-purple focus:border-v-royal-purple text-[14px] placeholder:text-v-muted min-h-[120px] resize-none" id="description" placeholder="Describe your project"></textarea>
+</div>
+<div class="space-y-2">
+<label class="block text-[14px] font-medium text-v-dark" for="tags">
+                        Tags
+                    </label>
+<div class="w-full border border-v-input-border rounded-[8px] p-2 flex flex-wrap gap-2 items-center bg-white">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-v-chip-bg text-v-chip-text text-[13px] font-medium rounded-full">
+                            Q1-2026
+                            <span class="material-symbols-outlined text-[16px] cursor-pointer hover:text-red-500">close</span>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-v-chip-bg text-v-chip-text text-[13px] font-medium rounded-full">
+                            marketing
+                            <span class="material-symbols-outlined text-[16px] cursor-pointer hover:text-red-500">close</span>
+</span>
+<input class="flex-1 min-w-[100px] border-none focus:ring-0 p-0 text-[14px] placeholder:text-v-muted" id="tags" placeholder="Add tags..." type="text"/>
+</div>
+</div>
+<div class="flex gap-3 p-4 bg-v-info-bg rounded-[8px]">
+<span class="material-symbols-outlined text-v-royal-purple text-[20px] shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">info</span>
+<p class="text-[13px] leading-[1.5] text-v-dark">
+                        You'll select a template when adding use cases to this project. Different use cases can use different templates.
+                    </p>
+</div>
+</div>
+<div class="px-8 pb-8 pt-2 flex justify-end items-center gap-[12px]">
+<button class="text-[14px] font-semibold text-v-muted hover:text-v-dark transition-colors px-4 py-2">
+                    Cancel
+                </button>
+<button class="bg-v-royal-purple text-white px-6 py-3 rounded-[8px] font-semibold text-[14px] hover:brightness-110 transition-all shadow-sm">
+                    Create Project
+                </button>
+</div>
+</div>
+</div>
+
+</body></html>

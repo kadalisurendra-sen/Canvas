@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Helio Canvas - My Projects Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "v-teal": "#00ffaa",
+                        "v-royal-purple": "#5F2CFF",
+                        "v-coal": "#151C28",
+                        "v-blue-start": "#4029E7",
+                        "v-blue-end": "#2914BF",
+                        "v-text-muted": "#73777E",
+                        "v-bg-light": "#F8F9FA",
+                    },
+                    fontFamily: {
+                        "sans": ["Montserrat", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Montserrat', sans-serif;
+            @apply bg-white text-v-coal antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .project-card {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            border: 1px solid #F0F0F0;
+        }
+        .vibrant-bg {
+            background: linear-gradient(180deg, #4029E7 0%, #2914BF 100%);
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 40px;
+            border-bottom-left-radius: 40px;
+        }
+        .abstract-curve {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            clip-path: ellipse(120% 60% at 100% 0%);
+            pointer-events: none;
+        }
+        .abstract-curve-2 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(315deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            clip-path: ellipse(100% 50% at 0% 100%);
+            pointer-events: none;
+        }
+        .status-badge {
+            @apply px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
+        }
+        .status-active { @apply bg-emerald-100 text-emerald-700; }
+        .status-draft { @apply bg-amber-100 text-amber-700; }
+        .status-archived { @apply bg-slate-100 text-slate-600; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 z-20 sticky top-0">
+<div class="flex items-center gap-3">
+<div class="flex flex-col items-start leading-none">
+<span class="text-[10px] font-bold tracking-widest text-v-coal uppercase">virtusa</span>
+<span class="text-2xl font-bold tracking-tight text-v-coal flex items-center">
+                    hel<span class="relative inline-block">i<span class="absolute w-1.5 h-1.5 bg-[#02F576] rounded-full -top-1 left-1/2 -translate-x-1/2"></span></span>o
+                </span>
+</div>
+</div>
+<div class="flex-1 max-w-md mx-12">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-v-text-muted group-focus-within:text-v-royal-purple">search</span>
+<input class="w-full bg-v-bg-light border-transparent focus:border-v-royal-purple focus:ring-0 rounded-full pl-12 pr-4 py-2.5 text-sm transition-all" placeholder="Search projects, templates or assets..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-v-text-muted">notifications</span>
+</button>
+<div class="h-10 w-[1px] bg-gray-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-v-coal leading-tight">Alex Sterling</p>
+<p class="text-[11px] text-v-text-muted">Innovation Lead</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-v-royal-purple flex items-center justify-center text-white font-bold text-sm">
+                    AS
+                </div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<section class="w-full lg:w-[55%] xl:w-[50%] bg-white flex items-center justify-center p-8 overflow-y-auto">
+<div class="w-full max-w-[580px]">
+<div class="project-card bg-white rounded-[32px] p-10">
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-3xl font-bold text-v-coal tracking-tight">My Projects</h1>
+<button class="bg-v-teal hover:brightness-95 text-v-coal font-bold px-6 py-3 rounded-full flex items-center gap-2 transition-all shadow-sm text-sm">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                            Create New Project
+                        </button>
+</div>
+<div class="space-y-4">
+<div class="group flex items-center justify-between p-5 rounded-2xl border border-transparent hover:border-v-royal-purple/20 hover:bg-v-royal-purple/[0.02] transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-v-bg-light rounded-xl flex items-center justify-center group-hover:bg-v-royal-purple/10 transition-colors">
+<span class="material-symbols-outlined text-v-text-muted group-hover:text-v-royal-purple">analytics</span>
+</div>
+<div>
+<h3 class="font-bold text-v-coal mb-0.5">Global Logistics Optimization</h3>
+<p class="text-xs text-v-text-muted">Modified 2 hours ago • Q3 Roadmap</p>
+</div>
+</div>
+<span class="status-badge status-active">Active</span>
+</div>
+<div class="group flex items-center justify-between p-5 rounded-2xl border border-transparent hover:border-v-royal-purple/20 hover:bg-v-royal-purple/[0.02] transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-v-bg-light rounded-xl flex items-center justify-center group-hover:bg-v-royal-purple/10 transition-colors">
+<span class="material-symbols-outlined text-v-text-muted group-hover:text-v-royal-purple">token</span>
+</div>
+<div>
+<h3 class="font-bold text-v-coal mb-0.5">DeFi Portal Re-engineering</h3>
+<p class="text-xs text-v-text-muted">Modified yesterday • Sandbox</p>
+</div>
+</div>
+<span class="status-badge status-draft">Draft</span>
+</div>
+<div class="group flex items-center justify-between p-5 rounded-2xl border border-transparent hover:border-v-royal-purple/20 hover:bg-v-royal-purple/[0.02] transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-v-bg-light rounded-xl flex items-center justify-center group-hover:bg-v-royal-purple/10 transition-colors">
+<span class="material-symbols-outlined text-v-text-muted group-hover:text-v-royal-purple">architecture</span>
+</div>
+<div>
+<h3 class="font-bold text-v-coal mb-0.5">Supply Chain Resilience</h3>
+<p class="text-xs text-v-text-muted">Modified 3 days ago • Archive 2023</p>
+</div>
+</div>
+<span class="status-badge status-archived">Archived</span>
+</div>
+<div class="group flex items-center justify-between p-5 rounded-2xl border border-transparent hover:border-v-royal-purple/20 hover:bg-v-royal-purple/[0.02] transition-all cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-v-bg-light rounded-xl flex items-center justify-center group-hover:bg-v-royal-purple/10 transition-colors">
+<span class="material-symbols-outlined text-v-text-muted group-hover:text-v-royal-purple">monitoring</span>
+</div>
+<div>
+<h3 class="font-bold text-v-coal mb-0.5">Predictive Maintenance AI</h3>
+<p class="text-xs text-v-text-muted">Modified 1 week ago • Pilot phase</p>
+</div>
+</div>
+<span class="status-badge status-active">Active</span>
+</div>
+</div>
+<div class="mt-10 pt-8 border-t border-gray-100 flex items-center justify-between">
+<p class="text-sm text-v-text-muted">Showing 4 of 12 projects</p>
+<a class="text-v-royal-purple text-sm font-bold hover:underline flex items-center gap-1" href="#">
+                            View all projects
+                            <span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<section class="hidden lg:flex lg:w-[45%] xl:w-[50%] vibrant-bg items-center justify-center p-12 text-white">
+<div class="abstract-curve"></div>
+<div class="abstract-curve-2"></div>
+<div class="relative z-10 w-full max-w-lg text-center">
+<div class="flex flex-col items-center mb-12">
+<div class="flex flex-col items-start">
+<span class="text-[20px] font-bold tracking-[0.2em] -mb-2 z-10 opacity-80 uppercase">virtusa</span>
+<div class="flex items-center">
+<span class="text-[84px] font-bold tracking-[-0.04em] leading-none flex items-center">
+                                hel<span class="text-white relative"><span class="absolute w-4 h-4 bg-[#02F576] rounded-full top-2 left-1/2 -translate-x-1/2"></span>ı</span>o
+                            </span>
+<div class="-ml-[1.2rem] mt-2 relative z-10">
+<svg fill="none" height="84" viewBox="0 0 100 100" width="84" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 0C50 0 55 35 100 50C55 65 50 100 50 100C50 100 45 65 0 50C45 35 50 0 50 0Z" fill="#02F576"></path>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<h2 class="text-3xl font-bold">Welcome back, Alex.</h2>
+<p class="text-[18px] leading-[1.6] font-medium px-8 opacity-90">
+                        You have <span class="text-v-teal">3 active evaluations</span> requiring attention. Continue where you left off or start a new business canvas to explore fresh opportunities.
+                    </p>
+<div class="flex justify-center gap-4 mt-8">
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex-1 text-center">
+<p class="text-2xl font-bold">12</p>
+<p class="text-[10px] uppercase tracking-widest opacity-70">Total Canvas</p>
+</div>
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 flex-1 text-center">
+<p class="text-2xl font-bold">4</p>
+<p class="text-[10px] uppercase tracking-widest opacity-70">Shared with me</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+</body></html>
