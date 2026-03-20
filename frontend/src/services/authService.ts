@@ -1,5 +1,5 @@
 import type { UserProfile } from '../types/auth';
-import { apiFetch } from './api';
+import { apiFetch, getTenantId } from './api';
 
 const AUTH_URL = '/api/v1/auth';
 
@@ -66,5 +66,6 @@ export function getKeycloakPasswordResetUrl(): string {
 }
 
 export function getKeycloakRegistrationUrl(): string {
-  return '/signup';
+  const tenant = getTenantId();
+  return tenant ? `/signup?tenant=${tenant}` : '/signup';
 }

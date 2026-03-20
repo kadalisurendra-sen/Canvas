@@ -19,15 +19,11 @@ class Tenant(Base):
     )
     name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     slug: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
-    keycloak_realm: Mapped[str] = mapped_column(
+    schema_name: Mapped[str] = mapped_column(
         String(100), nullable=False, unique=True
     )
-    db_name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
-    db_host: Mapped[str] = mapped_column(
-        String(255), nullable=False, server_default="localhost"
-    )
-    db_port: Mapped[int] = mapped_column(
-        Integer, nullable=False, server_default="5432"
+    keycloak_realm: Mapped[str] = mapped_column(
+        String(100), nullable=False, unique=True
     )
     logo_url: Mapped[str | None] = mapped_column(Text, nullable=True)
     timezone: Mapped[str] = mapped_column(
@@ -44,6 +40,19 @@ class Tenant(Base):
         String(50), server_default="Montserrat"
     )
     email_signature: Mapped[str | None] = mapped_column(Text, nullable=True)
+    default_currency: Mapped[str] = mapped_column(
+        String(10), nullable=False, server_default="USD"
+    )
+    standard_roi_period: Mapped[str] = mapped_column(
+        String(20), nullable=False, server_default="3 Years"
+    )
+    min_feasibility_threshold: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default="65"
+    )
+    required_ethics_level: Mapped[str] = mapped_column(
+        String(50), nullable=False,
+        server_default="Level 3 - Enterprise Standard",
+    )
     is_active: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default="true"
     )

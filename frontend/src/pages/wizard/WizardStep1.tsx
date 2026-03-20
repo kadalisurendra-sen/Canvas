@@ -7,10 +7,11 @@ import { TagInput } from './step1/TagInput';
 import { createTemplate, updateTemplate } from '../../services/templateService';
 
 const CATEGORIES = [
-  { value: 'ai', label: 'AI/ML Solutions' },
-  { value: 'rpa', label: 'RPA Automation' },
-  { value: 'cloud', label: 'Cloud Migration' },
-  { value: 'finops', label: 'FinOps Optimization' },
+  { value: 'AI/ML', label: 'AI/ML Solutions' },
+  { value: 'RPA', label: 'RPA Automation' },
+  { value: 'Agentic AI', label: 'Agentic AI' },
+  { value: 'Data Science', label: 'Data Science' },
+  { value: 'Digital', label: 'Digital Transformation' },
 ];
 
 export function WizardStep1() {

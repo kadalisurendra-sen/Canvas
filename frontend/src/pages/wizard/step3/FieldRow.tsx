@@ -148,11 +148,44 @@ export function FieldRow({ field, onUpdate, onRemove }: FieldRowProps) {
             </div>
           </div>
 
-          {isSelectType && field.is_scoring && (
+          {isSelectType && (
             <OptionsEditor
               options={field.options}
               onChange={(options) => onUpdate({ ...field, options })}
+              showScores={field.is_scoring}
             />
+          )}
+
+          {!isSelectType && field.is_scoring && (
+            <div className="pt-4">
+              <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
+                Score Value
+              </h4>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-slate-600">
+                  Points awarded when this field is completed:
+                </span>
+                <input
+                  className="w-20 border-[#CFD0D6] rounded text-xs px-2 py-1.5 text-center"
+                  type="number"
+                  min={0}
+                  value={field.options[0]?.score || 0}
+                  onChange={(e) => {
+                    const score = Number(e.target.value);
+                    onUpdate({
+                      ...field,
+                      options: [{
+                        label: field.label,
+                        value: field.field_key || 'score',
+                        score,
+                        sort_order: 1,
+                      }],
+                    });
+                  }}
+                />
+                <span className="text-xs text-slate-400">pts</span>
+              </div>
+            </div>
           )}
         </div>
       )}

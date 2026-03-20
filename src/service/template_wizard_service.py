@@ -30,12 +30,12 @@ async def update_fields(
     data: FieldsUpdate,
 ) -> Template:
     """Replace sections/fields/options for a template."""
-    await get_template(session, template_id)
+    template = await get_template(session, template_id)
     for stage_data in data.stages:
         stage = await _find_stage(session, stage_data.stage_id)
         await _replace_sections(session, stage, stage_data.sections)
-    await session.commit()
-    return await get_template(session, template_id)
+    await session.flush()
+    return template
 
 
 async def update_scoring(
@@ -55,8 +55,8 @@ async def update_scoring(
         stage.weight_pct = scoring.weight_pct
         stage.min_pass_score = scoring.min_pass_score
         stage.fail_action = scoring.fail_action.value
-    await session.commit()
-    return await get_template(session, template_id)
+    await session.flush()
+    return template
 
 
 async def publish_template(
@@ -69,8 +69,7 @@ async def publish_template(
     template.status = "published"
     template.version = template.version + 1
     template.updated_at = datetime.utcnow()
-    await session.commit()
-    await session.refresh(template)
+    await session.flush()
     return template
 
 

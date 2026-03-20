@@ -36,13 +36,22 @@ def build_repo_config() -> dict[str, str]:
     }
 
 
-def make_create_payload(email: str, role: str) -> dict[str, object]:
+def make_create_payload(
+    email: str, role: str,
+    username: str = "", password: str = "",
+    first_name: str = "", last_name: str = "",
+) -> dict[str, object]:
     """Build Keycloak user creation payload."""
     return {
-        "email": email, "username": email,
-        "enabled": True, "emailVerified": False,
-        "attributes": {"role": [role], "status": ["invited"]},
-        "requiredActions": ["VERIFY_EMAIL", "UPDATE_PASSWORD"],
+        "email": email,
+        "username": username or email,
+        "firstName": first_name or username or email.split("@")[0],
+        "lastName": last_name or "User",
+        "enabled": True,
+        "emailVerified": True,
+        "credentials": [
+            {"type": "password", "value": password or "changeme123", "temporary": False},
+        ],
     }
 
 

@@ -17,6 +17,10 @@ class TenantNotFoundError(Exception):
 
 GENERAL_FIELDS = {"name", "timezone", "default_language", "logo_url"}
 BRANDING_FIELDS = {"primary_color", "favicon_url", "font_family", "email_signature"}
+DEFAULTS_FIELDS = {
+    "default_currency", "standard_roi_period",
+    "min_feasibility_threshold", "required_ethics_level",
+}
 
 
 def _filter_data(data: dict[str, Any], allowed: set[str]) -> dict[str, Any]:
@@ -56,6 +60,17 @@ class TenantRepository:
     ) -> Tenant:
         """Update branding settings for a tenant."""
         filtered = _filter_data(data, BRANDING_FIELDS)
+        if filtered:
+            stmt = update(Tenant).where(Tenant.id == tenant_id).values(**filtered)
+            await self._session.execute(stmt)
+            await self._session.commit()
+        return await self.get_by_id(tenant_id)
+
+    async def update_defaults(
+        self, tenant_id: uuid.UUID, data: dict[str, Any],
+    ) -> Tenant:
+        """Update default configuration for a tenant."""
+        filtered = _filter_data(data, DEFAULTS_FIELDS)
         if filtered:
             stmt = update(Tenant).where(Tenant.id == tenant_id).values(**filtered)
             await self._session.execute(stmt)

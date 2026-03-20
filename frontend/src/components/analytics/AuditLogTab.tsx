@@ -18,6 +18,10 @@ export interface AuditFilters {
 
 const EVENT_COLORS: Record<string, string> = {
   MANAGEMENT: 'bg-blue-100 text-blue-700',
+  TEMPLATE: 'bg-purple-100 text-purple-700',
+  DATA: 'bg-emerald-100 text-emerald-700',
+  AUTH: 'bg-amber-100 text-amber-700',
+  SETTINGS: 'bg-cyan-100 text-cyan-700',
   SYSTEM: 'bg-slate-100 text-slate-600',
   SECURITY: 'bg-orange-100 text-orange-700',
 };
@@ -52,9 +56,12 @@ export function AuditLogTab({ logs, onFilter, onPageChange, onExport }: AuditLog
             className="px-3 py-2 border border-slate-200 rounded-md text-sm min-w-[180px]"
           >
             <option value="">All Actions</option>
-            <option value="login">Login/Logout</option>
-            <option value="config_change">Configuration Change</option>
-            <option value="data_export">Data Export</option>
+            <option value="user_login">Login</option>
+            <option value="user_logout">Logout</option>
+            <option value="user_invited">User Invited</option>
+            <option value="template_created">Template Created</option>
+            <option value="template_published">Template Published</option>
+            <option value="csv_imported">CSV Import</option>
           </select>
         </div>
         <div>
@@ -66,6 +73,10 @@ export function AuditLogTab({ logs, onFilter, onPageChange, onExport }: AuditLog
           >
             <option value="">All Events</option>
             <option value="MANAGEMENT">Management</option>
+            <option value="TEMPLATE">Template</option>
+            <option value="DATA">Data</option>
+            <option value="AUTH">Auth</option>
+            <option value="SETTINGS">Settings</option>
             <option value="SYSTEM">System</option>
             <option value="SECURITY">Security</option>
           </select>

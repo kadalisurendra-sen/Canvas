@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { TenantSettings, UpdateGeneralRequest } from '../../types/tenant';
 
 interface GeneralTabProps {
@@ -13,11 +13,23 @@ export function GeneralTab({ tenant, onSave, onDiscard }: GeneralTabProps) {
   const [language, setLanguage] = useState(tenant.default_language);
   const [template, setTemplate] = useState(tenant.default_template || '');
   const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  // Sync when tenant data loads/changes
+  useEffect(() => {
+    setName(tenant.name);
+    setTimezone(tenant.timezone);
+    setLanguage(tenant.default_language);
+    setTemplate(tenant.default_template || '');
+  }, [tenant]);
 
   const handleSave = async () => {
     setSaving(true);
+    setSaved(false);
     try {
-      await onSave({ name, timezone, default_language: language, default_template: template });
+      await onSave({ name, timezone, default_language: language });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     } finally {
       setSaving(false);
     }
@@ -29,6 +41,13 @@ export function GeneralTab({ tenant, onSave, onDiscard }: GeneralTabProps) {
     setLanguage(tenant.default_language);
     setTemplate(tenant.default_template || '');
     onDiscard();
+  };
+
+  const handleReset = () => {
+    setName(tenant.name);
+    setTimezone('UTC');
+    setLanguage('en');
+    setTemplate('');
   };
 
   return (
@@ -93,6 +112,7 @@ export function GeneralTab({ tenant, onSave, onDiscard }: GeneralTabProps) {
                   <option value="US/Eastern">UTC-5 (Eastern Time)</option>
                   <option value="US/Pacific">UTC-8 (Pacific Time)</option>
                   <option value="Europe/London">UTC+0 (London)</option>
+                  <option value="Asia/Kolkata">UTC+5:30 (India)</option>
                   <option value="UTC">UTC</option>
                 </select>
               </div>
@@ -110,37 +130,24 @@ export function GeneralTab({ tenant, onSave, onDiscard }: GeneralTabProps) {
               </div>
             </div>
           </div>
-
-          {/* Default Template */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start pt-4 border-t border-[#F0F0F0]">
-            <div>
-              <label className="text-sm font-medium text-[#3D4353]">Use Case Configuration</label>
-              <p className="text-xs text-[#7D8494] mt-1">Global defaults for newly created evaluation projects.</p>
-            </div>
-            <div className="md:col-span-2">
-              <div className="space-y-2">
-                <span className="text-[14px] font-medium text-[#3D4353]">Default Template</span>
-                <select
-                  className="w-full h-12 rounded-[8px] border-[#CFD0D6] text-sm text-[#3D4353] focus:ring-primary focus:border-primary px-4"
-                  value={template}
-                  onChange={(e) => setTemplate(e.target.value)}
-                >
-                  <option value="">AI/ML Evaluation</option>
-                  <option value="saas">SaaS Opportunity Audit</option>
-                  <option value="hardware">Hardware Lifecycle Analysis</option>
-                </select>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Footer */}
       <footer className="mt-auto border-t border-[#CFD0D6] bg-white p-6 flex justify-between items-center -mx-10 px-10">
-        <button className="px-6 py-2.5 rounded-[8px] border border-primary text-primary font-semibold hover:bg-primary/5 transition-colors">
+        <button
+          onClick={handleReset}
+          className="px-6 py-2.5 rounded-[8px] border border-primary text-primary font-semibold hover:bg-primary/5 transition-colors"
+        >
           Reset to Defaults
         </button>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
+          {saved && (
+            <span className="text-sm text-emerald-600 font-medium flex items-center gap-1">
+              <span className="material-symbols-outlined text-base">check_circle</span>
+              Saved
+            </span>
+          )}
           <button
             onClick={handleDiscard}
             className="px-6 py-2.5 rounded-[8px] text-[#7D8494] font-semibold hover:text-[#3D4353] transition-colors"

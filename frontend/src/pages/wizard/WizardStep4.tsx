@@ -12,6 +12,13 @@ export function WizardStep4() {
 
   useEffect(() => { setStep(4); }, [setStep]);
 
+  // Sync when context updates (template loaded from API)
+  useEffect(() => {
+    if (state.stages.length > 0) {
+      setLocalStages(state.stages);
+    }
+  }, [state.stages]);
+
   const handleWeightChange = (idx: number, weight: number) => {
     const updated = [...localStages];
     updated[idx] = { ...updated[idx], weight_pct: weight };

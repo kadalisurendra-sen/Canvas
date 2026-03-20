@@ -3,8 +3,8 @@ import type { TemplateListItem } from '../../types/template';
 
 interface TemplateCardProps {
   template: TemplateListItem;
-  onEdit: (id: string) => void;
-  onDelete: (template: TemplateListItem) => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (template: TemplateListItem) => void;
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
@@ -14,15 +14,6 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
   'Data Science': { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-100' },
   'Digital': { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-100' },
   'Custom': { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200' },
-};
-
-const ICON_COLORS: Record<string, { bg: string; text: string }> = {
-  'AI/ML': { bg: 'bg-blue-50', text: 'text-blue-600' },
-  'RPA': { bg: 'bg-purple-50', text: 'text-purple-600' },
-  'Agentic AI': { bg: 'bg-teal-50', text: 'text-teal-600' },
-  'Data Science': { bg: 'bg-orange-50', text: 'text-orange-600' },
-  'Digital': { bg: 'bg-green-50', text: 'text-green-600' },
-  'Custom': { bg: 'bg-slate-100', text: 'text-slate-600' },
 };
 
 function getStatusBadge(status: string) {
@@ -39,12 +30,6 @@ function getStatusBadge(status: string) {
           Draft
         </span>
       );
-    case 'archived':
-      return (
-        <span className="px-2.5 py-1 bg-slate-200 text-slate-700 text-[12px] font-medium rounded uppercase tracking-wider">
-          Archived
-        </span>
-      );
     default:
       return null;
   }
@@ -52,18 +37,19 @@ function getStatusBadge(status: string) {
 
 export function TemplateCard({ template, onEdit, onDelete }: TemplateCardProps) {
   const catColor = CATEGORY_COLORS[template.category] || CATEGORY_COLORS['Custom'];
-  const iconColor = ICON_COLORS[template.category] || ICON_COLORS['Custom'];
-  const isArchived = template.status === 'archived';
+  const themeColor = template.theme_color || '#5F2CFF';
 
   return (
     <div
-      className={`bg-white rounded-[24px] shadow-sm border border-[#E7E8EB] hover:shadow-md transition-shadow overflow-hidden flex flex-col h-full ${
-        isArchived ? 'opacity-70 hover:opacity-100 grayscale hover:grayscale-0' : ''
-      }`}
+      className="bg-white rounded-[24px] shadow-sm border border-[#E7E8EB] hover:shadow-md transition-shadow overflow-hidden flex flex-col h-full"
+      style={{ borderTopColor: themeColor, borderTopWidth: '3px' }}
     >
       <div className="p-6 flex-1">
         <div className="flex justify-between items-start mb-4">
-          <div className={`w-12 h-12 ${iconColor.bg} ${iconColor.text} rounded-lg flex items-center justify-center`}>
+          <div
+            className="w-12 h-12 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: `${themeColor}15`, color: themeColor }}
+          >
             <span className="material-symbols-outlined text-[28px]">
               {template.icon || 'description'}
             </span>
@@ -77,7 +63,31 @@ export function TemplateCard({ template, onEdit, onDelete }: TemplateCardProps) 
         </div>
 
         <h3 className="text-[24px] font-semibold text-slate-900 mb-2">{template.name}</h3>
-        <p className="text-sm text-slate-500">{template.description}</p>
+        <p className="text-sm text-slate-500 line-clamp-2">{template.description}</p>
+
+        {/* Tags */}
+        {template.tags && template.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            {template.tags.slice(0, 4).map((tag, i) => (
+              <span
+                key={i}
+                className="px-2 py-0.5 text-[10px] font-medium rounded-full border"
+                style={{
+                  color: themeColor,
+                  borderColor: `${themeColor}30`,
+                  backgroundColor: `${themeColor}08`,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+            {template.tags.length > 4 && (
+              <span className="px-2 py-0.5 text-[10px] font-medium text-slate-400 bg-slate-50 rounded-full">
+                +{template.tags.length - 4}
+              </span>
+            )}
+          </div>
+        )}
 
         <div className="mt-6 grid grid-cols-3 gap-4 border-t border-slate-100 pt-6">
           <div className="text-center">
@@ -100,20 +110,22 @@ export function TemplateCard({ template, onEdit, onDelete }: TemplateCardProps) 
           {_formatDate(template.updated_at)}
         </span>
         <div className="flex gap-2">
-          <button
-            onClick={() => onEdit(template.id)}
-            className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors"
-          >
-            <span className="material-symbols-outlined text-[20px]">
-              {isArchived ? 'settings_backup_restore' : 'edit'}
-            </span>
-          </button>
-          <button
-            onClick={() => onDelete(template)}
-            className="p-2 text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
-          >
-            <span className="material-symbols-outlined text-[20px]">delete</span>
-          </button>
+          {onEdit && (
+            <button
+              onClick={() => onEdit(template.id)}
+              className="p-2 text-primary hover:bg-primary/10 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined text-[20px]">edit</span>
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={() => onDelete(template)}
+              className="p-2 text-rose-500 hover:bg-rose-50 rounded-full transition-colors"
+            >
+              <span className="material-symbols-outlined text-[20px]">delete</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

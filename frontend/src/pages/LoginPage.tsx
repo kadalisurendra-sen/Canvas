@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   getKeycloakPasswordResetUrl,
-  getKeycloakRegistrationUrl,
   loginWithCredentials,
   fetchCurrentUser,
 } from '../services/authService';
+import { getTenantId, setTenantId } from '../services/api';
 
 interface FormErrors {
   username?: string;
@@ -21,8 +21,29 @@ export function LoginPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [authError, setAuthError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tenantName, setTenantName] = useState('');
+  const [tenantSlug, setTenantSlug] = useState('');
+  const [orgCode, setOrgCode] = useState('');
+  const [orgError, setOrgError] = useState('');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isAuthenticated, setUser } = useAuth();
+
+  useEffect(() => {
+    const tenantParam = searchParams.get('tenant');
+    const existingTenant = getTenantId();
+    const slug = tenantParam || existingTenant;
+
+    if (slug) {
+      setTenantSlug(slug);
+      setTenantId(slug);
+      // Resolve tenant name for display
+      fetch(`/api/v1/tenants/resolve?slug=${slug}`)
+        .then((r) => { if (r.ok) return r.json(); throw new Error(); })
+        .then((data) => setTenantName(data.name))
+        .catch(() => setTenantName(''));
+    }
+  }, [searchParams]);
 
   if (isAuthenticated) {
     navigate('/templates', { replace: true });
@@ -37,6 +58,29 @@ export function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleOrgSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!orgCode.trim()) {
+      setOrgError('Organization code is required');
+      return;
+    }
+    setOrgError('');
+    // Resolve and redirect with tenant param
+    fetch(`/api/v1/tenants/resolve?slug=${orgCode.trim().toLowerCase()}`)
+      .then((r) => {
+        if (!r.ok) throw new Error('Organization not found');
+        return r.json();
+      })
+      .then((data) => {
+        setTenantId(data.slug);
+        setTenantSlug(data.slug);
+        setTenantName(data.name);
+      })
+      .catch(() => {
+        setOrgError('Organization not found. Please check your code.');
+      });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
@@ -45,7 +89,6 @@ export function LoginPage() {
     setIsSubmitting(true);
     try {
       await loginWithCredentials(username, password);
-      // Cookie is now set, fetch user profile
       const user = await fetchCurrentUser();
       setUser(user);
       navigate('/templates', { replace: true });
@@ -56,6 +99,59 @@ export function LoginPage() {
       setIsSubmitting(false);
     }
   };
+
+  // No tenant resolved yet — show org code input
+  if (!tenantSlug) {
+    return (
+      <div className="min-h-screen flex font-montserrat">
+        <LeftPanel />
+        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center bg-content-bg px-6">
+          <div className="w-full max-w-md">
+            <div className="bg-white rounded-xl shadow-sm p-8">
+              <div className="text-center mb-8">
+                <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
+                  <span className="text-white font-bold text-lg">HC</span>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800">Welcome</h2>
+                <p className="text-gray-500 text-sm mt-1">Enter your organization code to continue</p>
+              </div>
+
+              {orgError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+                  {orgError}
+                </div>
+              )}
+
+              <form onSubmit={handleOrgSubmit} noValidate>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Organization Code</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400 text-lg">
+                      business
+                    </span>
+                    <input
+                      type="text"
+                      value={orgCode}
+                      onChange={(e) => setOrgCode(e.target.value)}
+                      placeholder="e.g. acme"
+                      className="w-full h-10 pl-10 pr-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full h-10 bg-primary hover:bg-primary-600 text-white font-semibold rounded-lg transition-colors"
+                >
+                  Continue
+                </button>
+              </form>
+            </div>
+            <Footer />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex font-montserrat">
@@ -68,6 +164,8 @@ export function LoginPage() {
         errors={errors}
         authError={authError}
         isSubmitting={isSubmitting}
+        tenantName={tenantName}
+        tenantSlug={tenantSlug}
         onUsernameChange={setUsername}
         onPasswordChange={setPassword}
         onShowPasswordToggle={() => setShowPassword(!showPassword)}
@@ -120,6 +218,8 @@ interface RightPanelProps {
   errors: FormErrors;
   authError: string;
   isSubmitting: boolean;
+  tenantName: string;
+  tenantSlug: string;
   onUsernameChange: (v: string) => void;
   onPasswordChange: (v: string) => void;
   onShowPasswordToggle: () => void;
@@ -146,7 +246,11 @@ function LoginForm(props: RightPanelProps) {
           <span className="text-white font-bold text-lg">HC</span>
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Sign In</h2>
-        <p className="text-gray-500 text-sm mt-1">Welcome back to Helio Canvas</p>
+        <p className="text-gray-500 text-sm mt-1">
+          {props.tenantName
+            ? `Welcome to ${props.tenantName}`
+            : 'Welcome back to Helio Canvas'}
+        </p>
       </div>
 
       {props.authError && (
@@ -203,7 +307,7 @@ function LoginForm(props: RightPanelProps) {
       <p className="text-center text-sm text-gray-500 mt-6">
         Don&apos;t have an account?{' '}
         <a
-          href={getKeycloakRegistrationUrl()}
+          href={`/signup?tenant=${props.tenantSlug}`}
           className="text-primary hover:text-primary-600 font-medium"
         >
           Register

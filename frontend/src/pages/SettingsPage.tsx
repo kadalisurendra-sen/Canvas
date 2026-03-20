@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useParams, useNavigate } from 'react-router-dom';
 import type { TenantSettings, UpdateBrandingRequest, UpdateDefaultsRequest, UpdateGeneralRequest } from '../types/tenant';
 import { fetchTenant, updateBranding, updateDefaults, updateGeneral } from '../services/tenantService';
 import { GeneralTab } from '../components/tenant/GeneralTab';
 import { BrandingTab } from '../components/tenant/BrandingTab';
 import { DefaultsTab } from '../components/tenant/DefaultsTab';
+import { TenantListPage } from '../components/tenant/TenantListPage';
+import { getTenantId } from '../services/api';
 
 type TabName = 'general' | 'branding' | 'defaults';
 
@@ -16,10 +19,10 @@ const TABS: { key: TabName; label: string }[] = [
 
 const DEFAULT_TENANT: TenantSettings = {
   id: '',
-  name: 'Acme Corporation',
-  slug: 'acme',
+  name: '',
+  slug: '',
   logo_url: null,
-  timezone: 'US/Eastern',
+  timezone: 'UTC',
   default_language: 'en',
   default_template: null,
   is_active: true,
@@ -37,31 +40,69 @@ const DEFAULT_TENANT: TenantSettings = {
 
 export function SettingsPage() {
   const { user } = useAuth();
+  const { tenantId } = useParams<{ tenantId: string }>();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabName>('general');
   const [tenant, setTenant] = useState<TenantSettings>(DEFAULT_TENANT);
   const [loading, setLoading] = useState(false);
 
+  const isSuperAdmin = user?.roles.includes('system_admin');
+
+  // If super admin and no tenantId in URL, show tenant list
+  const showList = isSuperAdmin && !tenantId;
+
+  const [resolvedTenantId, setResolvedTenantId] = useState(tenantId || '');
+
+  // Resolve tenant ID from slug if not provided via URL
+  useEffect(() => {
+    if (tenantId) {
+      setResolvedTenantId(tenantId);
+      return;
+    }
+    if (showList) return;
+
+    // For non-super-admin users, resolve from localStorage slug
+    const slug = getTenantId();
+    if (slug) {
+      fetch(`/api/v1/tenants/resolve?slug=${slug}`)
+        .then((r) => r.ok ? r.json() : null)
+        .then((data) => {
+          if (data) {
+            // Use slug to find tenant ID from /tenants/list
+            fetch('/api/v1/tenants/list')
+              .then((r) => r.json())
+              .then((tenants) => {
+                const match = tenants.find((t: { slug: string }) => t.slug === slug);
+                if (match) setResolvedTenantId(match.id);
+              })
+              .catch(() => {});
+          }
+        })
+        .catch(() => {});
+    }
+  }, [tenantId, showList]);
+
   const loadTenant = useCallback(async () => {
-    if (!user?.tenant_id) return;
+    if (!resolvedTenantId || showList) return;
     setLoading(true);
     try {
-      const data = await fetchTenant(user.tenant_id);
+      const data = await fetchTenant(resolvedTenantId);
       setTenant(data);
     } catch {
       // Use default data if API unavailable
     } finally {
       setLoading(false);
     }
-  }, [user?.tenant_id]);
+  }, [resolvedTenantId, showList]);
 
   useEffect(() => {
     loadTenant();
   }, [loadTenant]);
 
   const handleSaveGeneral = async (data: UpdateGeneralRequest) => {
-    if (!user?.tenant_id) return;
+    if (!resolvedTenantId) return;
     try {
-      await updateGeneral(user.tenant_id, data);
+      await updateGeneral(resolvedTenantId, data);
       await loadTenant();
     } catch {
       // handle error
@@ -69,9 +110,9 @@ export function SettingsPage() {
   };
 
   const handleSaveBranding = async (data: UpdateBrandingRequest) => {
-    if (!user?.tenant_id) return;
+    if (!resolvedTenantId) return;
     try {
-      await updateBranding(user.tenant_id, data);
+      await updateBranding(resolvedTenantId, data);
       await loadTenant();
     } catch {
       // handle error
@@ -79,33 +120,38 @@ export function SettingsPage() {
   };
 
   const handleSaveDefaults = async (data: UpdateDefaultsRequest) => {
-    if (!user?.tenant_id) return;
+    if (!resolvedTenantId) return;
     try {
-      await updateDefaults(user.tenant_id, data);
+      await updateDefaults(resolvedTenantId, data);
       await loadTenant();
     } catch {
       // handle error
     }
   };
 
-  const isSystemAdmin = user?.roles.includes('system_admin');
+  // Super admin without tenantId → show tenant list
+  if (showList) {
+    return <TenantListPage />;
+  }
 
   return (
     <div className="flex-1 flex flex-col">
       {/* Header area */}
       <div className="px-10 pt-10 pb-6">
-        {isSystemAdmin && (
+        {isSuperAdmin && tenantId && (
           <div className="mb-4">
-            <a
-              className="inline-flex items-center text-sm font-medium text-[#7D8494] hover:text-primary transition-colors cursor-pointer"
-              href="#"
+            <button
+              onClick={() => navigate('/settings')}
+              className="inline-flex items-center text-sm font-medium text-[#7D8494] hover:text-primary transition-colors"
             >
               <span className="material-symbols-outlined text-base mr-2">arrow_back</span>
               Back to All Tenants
-            </a>
+            </button>
           </div>
         )}
-        <h2 className="text-[32px] font-bold text-[#1E2345]">{tenant.name}</h2>
+        <h2 className="text-[32px] font-bold text-[#1E2345]">
+          {tenant.name || 'Tenant Settings'}
+        </h2>
       </div>
 
       {/* Tabs */}

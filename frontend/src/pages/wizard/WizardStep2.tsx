@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWizard } from '../../context/WizardContext';
 import { StageRow } from './step2/StageRow';
-import { updateStages } from '../../services/templateService';
+import { updateStages, fetchTemplate } from '../../services/templateService';
 import type { TemplateStage } from '../../types/template';
 
 export function WizardStep2() {
@@ -12,6 +12,13 @@ export function WizardStep2() {
   const [error, setError] = useState('');
 
   useEffect(() => { setStep(2); }, [setStep]);
+
+  // Sync when context updates (template loaded from API)
+  useEffect(() => {
+    if (state.stages.length > 0) {
+      setLocalStages(state.stages);
+    }
+  }, [state.stages]);
 
   const handleAddStage = () => {
     const newStage: TemplateStage = {
@@ -78,16 +85,51 @@ export function WizardStep2() {
     if (state.templateId) {
       setSaving(true);
       try {
+        // Check if stages already have IDs (existing template) and names haven't changed
+        const allHaveIds = localStages.every((s) => s.id);
+        const namesMatch = allHaveIds && localStages.every((s) => {
+          const original = state.stages.find((os) => os.id === s.id);
+          return original && original.name === s.name;
+        });
+        const countMatch = localStages.length === state.stages.length;
+
+        if (allHaveIds && namesMatch && countMatch) {
+          // No changes to stages — skip API call, keep existing IDs and sections
+          setStages(localStages);
+          navigate(`${basePath}/step3`);
+          return;
+        }
+
+        // Stages changed — save and reload
         await updateStages(state.templateId, localStages.map((s) => ({
           name: s.name,
           sort_order: s.sort_order,
         })));
+        // Reload template to get stage IDs from server
+        const reloaded = await fetchTemplate(state.templateId);
+        if (reloaded.stages && reloaded.stages.length > 0) {
+          // Merge: keep local sections/fields but use server IDs
+          const merged = reloaded.stages.map((serverStage) => {
+            const local = localStages.find(
+              (ls) => ls.name === serverStage.name || ls.sort_order === serverStage.sort_order
+            );
+            return {
+              ...serverStage,
+              weight_pct: Number(serverStage.weight_pct) || local?.weight_pct || 0,
+              sections: local?.sections || serverStage.sections || [],
+            };
+          });
+          setStages(merged);
+          navigate(`${basePath}/step3`);
+          return;
+        }
       } catch (err) {
         setError('Failed to save stages');
         setSaving(false);
         return;
+      } finally {
+        setSaving(false);
       }
-      setSaving(false);
     }
 
     setStages(localStages);
@@ -99,7 +141,7 @@ export function WizardStep2() {
       <div className="pb-4 mb-4 border-b border-[#E7E8EB] flex items-center justify-between">
         <h3 className="font-bold text-[#151C28] text-lg">Evaluation Stages</h3>
         <span className="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded font-bold uppercase tracking-wider">
-          Drag to Reorder
+          Use arrows to reorder
         </span>
       </div>
 
@@ -109,6 +151,7 @@ export function WizardStep2() {
             key={index}
             index={index}
             name={stage.name}
+            total={localStages.length}
             onNameChange={(name) => handleNameChange(index, name)}
             onRemove={() => handleRemoveStage(index)}
             onMoveUp={() => handleMoveUp(index)}

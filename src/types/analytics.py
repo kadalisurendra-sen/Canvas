@@ -61,8 +61,10 @@ class DashboardData(BaseSchema):
 class AuditLogOut(BaseSchema):
     """Audit log entry for API response."""
 
-    id: uuid.UUID
-    created_at: datetime
+    model_config = {"from_attributes": True}
+
+    id: str | uuid.UUID
+    created_at: str | datetime
     user_name: Optional[str] = None
     event_type: str
     action: str
@@ -73,7 +75,7 @@ class AuditLogOut(BaseSchema):
 class PaginatedAuditLogs(BaseSchema):
     """Paginated audit log response."""
 
-    items: list[AuditLogOut]
+    items: list[AuditLogOut | dict[str, object]]
     total: int
     page: int
     page_size: int

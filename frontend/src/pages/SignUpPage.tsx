@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { registerUser } from '../services/authService';
+import { setTenantId, getTenantId } from '../services/api';
 
 export function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,15 @@ export function SignUpPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const tenantSlug = searchParams.get('tenant') || getTenantId();
+
+  useEffect(() => {
+    if (tenantSlug) {
+      setTenantId(tenantSlug);
+    }
+  }, [tenantSlug]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +38,7 @@ export function SignUpPage() {
         email, username, password, first_name: firstName, last_name: lastName,
       });
       setSuccess(result.message);
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate(tenantSlug ? `/login?tenant=${tenantSlug}` : '/login'), 2000);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
@@ -41,7 +50,7 @@ export function SignUpPage() {
     <div className="flex min-h-screen font-montserrat">
       <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col relative">
         <div className="p-8">
-          <Link to="/login" className="flex items-center gap-1 text-gray-800 font-semibold text-sm hover:opacity-70">
+          <Link to={tenantSlug ? `/login?tenant=${tenantSlug}` : '/login'} className="flex items-center gap-1 text-gray-800 font-semibold text-sm hover:opacity-70">
             <span className="material-symbols-outlined text-lg">chevron_left</span>
             Back
           </Link>
@@ -133,7 +142,7 @@ export function SignUpPage() {
 
             <div className="text-center mt-10 text-sm">
               <span className="text-gray-500">Already have an account?</span>
-              <Link to="/login" className="text-purple-700 font-bold ml-1 hover:underline">
+              <Link to={tenantSlug ? `/login?tenant=${tenantSlug}` : '/login'} className="text-purple-700 font-bold ml-1 hover:underline">
                 Login
               </Link>
             </div>

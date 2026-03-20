@@ -128,13 +128,9 @@ export function MasterDataPage() {
   }, []);
 
   const handleImport = async (file: File) => {
-    try {
-      const result = await importCsv(selectedCatId, file);
-      await loadValues();
-      return result;
-    } catch {
-      return { imported: 0, skipped: 0, errors: [] as Array<{ row: number; message: string }> };
-    }
+    const result = await importCsv(selectedCatId, file);
+    await loadValues();
+    return result;
   };
 
   return (

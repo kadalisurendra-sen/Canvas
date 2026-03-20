@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from src.runtime.dependencies.auth import get_current_user
 from src.runtime.dependencies.db import get_tenant_session
+from src.repo.analytics_repository import create_audit_log
 from src.service.template_service import (
     TemplateNotFoundError,
     TemplateValidationError,
@@ -42,6 +43,13 @@ async def update_stages_route(
                 session, template_id,
                 [s.model_dump() for s in data.stages],
             )
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "stages_updated",
+                details=f"Updated {len(stages)} stages on template {template_id}",
+                ip_address=ip,
+            )
             return {
                 "template_id": str(template_id),
                 "stage_count": str(len(stages)),
@@ -61,6 +69,13 @@ async def update_fields_route(
     try:
         async with get_tenant_session(request) as session:
             tpl = await update_fields(session, template_id, data)
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "fields_updated",
+                details=f"Updated fields on template {template_id}",
+                ip_address=ip,
+            )
             return {"id": str(tpl.id), "status": tpl.status}
     except TemplateNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -77,6 +92,13 @@ async def update_scoring_route(
     try:
         async with get_tenant_session(request) as session:
             tpl = await update_scoring(session, template_id, data)
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "scoring_updated",
+                details=f"Updated scoring on template {template_id}",
+                ip_address=ip,
+            )
             return {"id": str(tpl.id), "status": tpl.status}
     except TemplateValidationError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
@@ -94,6 +116,13 @@ async def publish_template_route(
     try:
         async with get_tenant_session(request) as session:
             tpl = await publish_template(session, template_id)
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "template_published",
+                details=f"Published template {template_id} (v{tpl.version})",
+                ip_address=ip,
+            )
             return {
                 "id": str(tpl.id),
                 "status": "published",

@@ -7,14 +7,13 @@ from fastapi import Depends, HTTPException, Request
 from jose import jwt as jose_jwt, JWTError
 
 from src.config.settings import get_settings
-from src.service.keycloak_client import KeycloakClient
 from src.types.auth import UserContext
 from src.types.enums import UserRole
 
 logger = logging.getLogger(__name__)
 
-# JWKS cache (module-level, shared across requests)
-_jwks_cache: dict[str, list[dict[str, str]]] | None = None
+# Per-realm JWKS cache
+_jwks_cache: dict[str, dict[str, list[dict[str, str]]]] = {}
 
 # Dev mode user
 _DEV_USER = UserContext(
@@ -26,15 +25,18 @@ _DEV_USER = UserContext(
 )
 
 
-async def _get_jwks() -> dict[str, list[dict[str, str]]]:
-    """Fetch and cache JWKS from Keycloak."""
-    global _jwks_cache
-    if _jwks_cache is None:
-        kc = KeycloakClient()
+async def _get_jwks(realm: str) -> dict[str, list[dict[str, str]]]:
+    """Fetch and cache JWKS from Keycloak for a specific realm."""
+    if realm not in _jwks_cache:
+        settings = get_settings()
+        jwks_url = (
+            f"{settings.KEYCLOAK_URL}/realms/{realm}"
+            f"/protocol/openid-connect/certs"
+        )
         async with httpx.AsyncClient() as client:
-            resp = await client.get(kc.jwks_url, timeout=10.0)
-            _jwks_cache = resp.json()
-    return _jwks_cache
+            resp = await client.get(jwks_url, timeout=10.0)
+            _jwks_cache[realm] = resp.json()
+    return _jwks_cache[realm]
 
 
 async def get_current_user(request: Request) -> UserContext:
@@ -48,8 +50,13 @@ async def get_current_user(request: Request) -> UserContext:
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
+    # Use the tenant's realm (set by middleware) for JWKS validation
+    realm = getattr(request.state, "tenant_realm", settings.KEYCLOAK_REALM)
+    tenant_id_str = getattr(request.state, "tenant_id", "a0000000-0000-0000-0000-000000000001")
+    logger.info("JWT validation: realm=%s, tenant_id=%s", realm, tenant_id_str)
+
     try:
-        jwks = await _get_jwks()
+        jwks = await _get_jwks(realm)
         header = jose_jwt.get_unverified_header(token)
         kid = header.get("kid")
 
@@ -60,8 +67,8 @@ async def get_current_user(request: Request) -> UserContext:
                 break
 
         if not signing_key:
-            global _jwks_cache
-            _jwks_cache = None  # Force refresh on next call
+            # Clear cache for this realm and retry
+            _jwks_cache.pop(realm, None)
             raise HTTPException(status_code=401, detail="Invalid token key")
 
         payload = jose_jwt.decode(
@@ -81,13 +88,12 @@ async def get_current_user(request: Request) -> UserContext:
         except ValueError:
             pass
 
-    default_tenant = "a0000000-0000-0000-0000-000000000001"
     return UserContext(
-        user_id=uuid.UUID(payload.get("sub", default_tenant)),
+        user_id=uuid.UUID(payload.get("sub", "00000000-0000-0000-0000-000000000000")),
         email=str(payload.get("email", "")),
         name=str(payload.get("name", "")),
         roles=roles,
-        tenant_id=uuid.UUID(default_tenant),
+        tenant_id=uuid.UUID(tenant_id_str) if tenant_id_str else uuid.UUID("00000000-0000-0000-0000-000000000000"),
     )
 
 

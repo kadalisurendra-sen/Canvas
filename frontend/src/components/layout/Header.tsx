@@ -36,22 +36,18 @@ export function Header() {
     <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2">
-        <span className="text-gray-400 text-sm">Home</span>
+        <button
+          onClick={() => navigate('/templates')}
+          className="text-gray-400 text-sm hover:text-primary transition-colors cursor-pointer"
+        >
+          Home
+        </button>
         <span className="text-gray-300">/</span>
         <span className="text-gray-800 text-sm font-semibold">{pageTitle}</span>
       </div>
 
-      {/* Right section */}
+      {/* Right section — user dropdown only */}
       <div className="flex items-center gap-4">
-        {/* Notification bell */}
-        <button
-          className="relative p-2 text-gray-500 hover:text-gray-700 transition-colors"
-          aria-label="Notifications"
-        >
-          <span className="material-symbols-outlined text-xl">notifications</span>
-        </button>
-
-        {/* User dropdown */}
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -73,12 +69,6 @@ export function Header() {
                 <p className="text-sm font-medium text-gray-800">{user?.name || 'User'}</p>
                 <p className="text-xs text-gray-500">{user?.email || ''}</p>
               </div>
-              <button
-                onClick={() => { setDropdownOpen(false); }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-              >
-                Profile
-              </button>
               <button
                 onClick={handleLogout}
                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"

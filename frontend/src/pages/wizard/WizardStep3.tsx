@@ -4,16 +4,26 @@ import { useWizard } from '../../context/WizardContext';
 import { StageTree } from './step3/StageTree';
 import { SectionEditor } from './step3/SectionEditor';
 import { FieldPreviewPanel } from './step3/FieldPreviewPanel';
-import type { TemplateSection, TemplateStage } from '../../types/template';
+import { updateFields } from '../../services/templateService';
+import type { TemplateSection, TemplateStage, FieldsUpdateStage } from '../../types/template';
 
 export function WizardStep3() {
   const navigate = useNavigate();
   const { state, setStages, setStep } = useWizard();
-  const [localStages, setLocalStages] = useState<TemplateStage[]>(state.stages);
+  const [localStages, setLocalStages] = useState<TemplateStage[]>([]);
   const [activeStageIdx, setActiveStageIdx] = useState(0);
   const [activeSectionIdx, setActiveSectionIdx] = useState(0);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => { setStep(3); }, [setStep]);
+
+  // Always sync from context — handles initial load and API reload
+  useEffect(() => {
+    if (state.stages.length > 0) {
+      setLocalStages(state.stages);
+      if (!initialized) setInitialized(true);
+    }
+  }, [state.stages, initialized]);
 
   const activeStage = localStages[activeStageIdx];
   const activeSection = activeStage?.sections?.[activeSectionIdx];
@@ -45,9 +55,57 @@ export function WizardStep3() {
     ? `/templates/${state.templateId}/edit`
     : '/templates/new';
 
+  const [saving, setSaving] = useState(false);
+
   const handleBack = () => navigate(`${basePath}/step2`);
-  const handleNext = () => {
+  const handleNext = async () => {
     setStages(localStages);
+
+    // Save fields to API if template exists
+    if (state.templateId) {
+      setSaving(true);
+      try {
+        // Debug: check which stages have IDs
+        const stagesWithId = localStages.filter((s) => s.id);
+        const stagesWithoutId = localStages.filter((s) => !s.id);
+        console.log('[Step3 Save] Template ID:', state.templateId);
+        console.log('[Step3 Save] Stages with ID:', stagesWithId.length, stagesWithId.map(s => ({ name: s.name, id: s.id, sections: s.sections.length })));
+        console.log('[Step3 Save] Stages WITHOUT ID:', stagesWithoutId.length, stagesWithoutId.map(s => s.name));
+
+        const fieldsPayload: FieldsUpdateStage[] = localStages
+          .filter((s) => s.id)
+          .map((s) => ({
+            stage_id: s.id as string,
+            sections: s.sections.map((sec) => ({
+              name: sec.name,
+              sort_order: sec.sort_order,
+              fields: sec.fields.map((f) => ({
+                field_key: f.field_key || f.label.toLowerCase().replace(/\s+/g, '_'),
+                label: f.label,
+                field_type: f.field_type,
+                help_text: f.help_text || '',
+                is_mandatory: f.is_mandatory,
+                is_scoring: f.is_scoring,
+                sort_order: f.sort_order,
+                options: f.options.map((o) => ({
+                  label: o.label,
+                  value: o.value || o.label.toLowerCase().replace(/\s+/g, '_'),
+                  score: o.score,
+                  sort_order: o.sort_order,
+                })),
+              })),
+            })),
+          }));
+        console.log('[Step3 Save] Payload:', JSON.stringify(fieldsPayload, null, 2));
+        await updateFields(state.templateId, fieldsPayload);
+        console.log('[Step3 Save] SUCCESS - fields saved');
+      } catch (err) {
+        console.error('[Step3 Save] FAILED:', err);
+      } finally {
+        setSaving(false);
+      }
+    }
+
     navigate(`${basePath}/step4`);
   };
 
@@ -105,9 +163,10 @@ export function WizardStep3() {
           </button>
           <button
             onClick={handleNext}
-            className="px-8 py-2.5 bg-primary text-white font-bold text-sm rounded shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all flex items-center gap-2"
+            disabled={saving}
+            className="px-8 py-2.5 bg-primary text-white font-bold text-sm rounded shadow-lg shadow-primary/25 hover:bg-primary/90 transition-all flex items-center gap-2 disabled:opacity-50"
           >
-            Next: Scoring
+            {saving ? 'Saving...' : 'Next: Scoring'}
             <span className="material-symbols-outlined text-lg">arrow_forward</span>
           </button>
         </div>

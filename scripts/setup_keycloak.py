@@ -1,4 +1,4 @@
-"""Setup Keycloak realm, client, roles, and test users via Admin REST API."""
+"""Setup Keycloak with multiple tenant realms, clients, roles, and test users."""
 import logging
 import sys
 import time
@@ -14,11 +14,23 @@ logger = logging.getLogger(__name__)
 KEYCLOAK_URL = "http://localhost:8080"
 ADMIN_USER = "admin"
 ADMIN_PASS = "admin"
-REALM_NAME = "helio"
 CLIENT_ID = "helio-admin"
 
 MAX_RETRIES = 30
 RETRY_DELAY = 3
+
+# Realm definitions: (realm_name, display_name)
+REALMS = [
+    ("realm-acme", "Acme Corporation"),
+    ("realm-globex", "Globex Industries"),
+    ("realm-initech", "Initech Solutions"),
+]
+
+# Test users per realm: (username, email, first, last, password, role)
+TEST_USERS = [
+    ("admin", "admin@{realm}.local", "Alex", "Rivera", "admin123", "admin"),
+    ("viewer", "viewer@{realm}.local", "Sarah", "Connor", "viewer123", "viewer"),
+]
 
 
 def wait_for_keycloak(client: httpx.Client) -> None:
@@ -41,13 +53,12 @@ def wait_for_keycloak(client: httpx.Client) -> None:
             attempt, MAX_RETRIES, RETRY_DELAY,
         )
         time.sleep(RETRY_DELAY)
-    logger.error("Keycloak did not become ready after %d attempts.", MAX_RETRIES)
+    logger.error("Keycloak did not become ready.")
     sys.exit(1)
 
 
 def get_admin_token(client: httpx.Client) -> str:
     """Obtain an admin access token from the master realm."""
-    logger.info("Obtaining admin token...")
     resp = client.post(
         f"{KEYCLOAK_URL}/realms/master/protocol/openid-connect/token",
         data={
@@ -58,127 +69,100 @@ def get_admin_token(client: httpx.Client) -> str:
         },
     )
     resp.raise_for_status()
-    token = resp.json()["access_token"]
-    logger.info("Admin token obtained.")
-    return token
+    return resp.json()["access_token"]
 
 
-def create_realm(client: httpx.Client, token: str) -> None:
-    """Create the helio realm if it does not exist."""
-    logger.info("Creating realm '%s'...", REALM_NAME)
+def create_realm(client: httpx.Client, token: str, realm_name: str, display: str) -> None:
+    """Create a realm if it does not exist."""
     headers = {"Authorization": f"Bearer {token}"}
-
-    # Check if realm exists
-    resp = client.get(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}",
-        headers=headers,
-    )
+    resp = client.get(f"{KEYCLOAK_URL}/admin/realms/{realm_name}", headers=headers)
     if resp.status_code == 200:
-        logger.info("Realm '%s' already exists, skipping.", REALM_NAME)
+        logger.info("Realm '%s' already exists.", realm_name)
         return
 
     resp = client.post(
         f"{KEYCLOAK_URL}/admin/realms",
         headers=headers,
         json={
-            "realm": REALM_NAME,
+            "realm": realm_name,
+            "displayName": display,
             "enabled": True,
             "registrationAllowed": True,
             "loginWithEmailAllowed": True,
         },
     )
     resp.raise_for_status()
-    logger.info("Realm '%s' created.", REALM_NAME)
+    logger.info("Realm '%s' created.", realm_name)
 
 
-def create_client(client: httpx.Client, token: str) -> None:
-    """Create the helio-admin client in the helio realm."""
-    logger.info("Creating client '%s'...", CLIENT_ID)
+def create_client(client: httpx.Client, token: str, realm_name: str) -> None:
+    """Create the helio-admin client in a realm."""
     headers = {"Authorization": f"Bearer {token}"}
-
-    # Check if client already exists
     resp = client.get(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/clients",
+        f"{KEYCLOAK_URL}/admin/realms/{realm_name}/clients",
         headers=headers,
         params={"clientId": CLIENT_ID},
     )
     resp.raise_for_status()
-    existing = resp.json()
-    if existing:
-        logger.info("Client '%s' already exists, skipping.", CLIENT_ID)
+    if resp.json():
+        logger.info("Client '%s' already exists in '%s'.", CLIENT_ID, realm_name)
         return
 
     resp = client.post(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/clients",
+        f"{KEYCLOAK_URL}/admin/realms/{realm_name}/clients",
         headers=headers,
         json={
             "clientId": CLIENT_ID,
             "publicClient": True,
             "directAccessGrantsEnabled": True,
-            "redirectUris": [
-                "http://localhost:5173/*",
-                "http://localhost:8000/*",
-            ],
-            "webOrigins": [
-                "http://localhost:5173",
-                "http://localhost:8000",
-            ],
+            "redirectUris": ["http://localhost:5173/*", "http://localhost:5174/*", "http://localhost:8000/*"],
+            "webOrigins": ["http://localhost:5173", "http://localhost:5174", "http://localhost:8000"],
             "standardFlowEnabled": True,
             "rootUrl": "http://localhost:5173",
         },
     )
     resp.raise_for_status()
-    logger.info("Client '%s' created.", CLIENT_ID)
+    logger.info("Client '%s' created in '%s'.", CLIENT_ID, realm_name)
 
 
-def create_realm_roles(
-    client: httpx.Client, token: str,
-) -> None:
+def create_realm_roles(client: httpx.Client, token: str, realm_name: str) -> None:
     """Create realm roles: admin, contributor, viewer."""
     headers = {"Authorization": f"Bearer {token}"}
-    roles = ["admin", "contributor", "viewer"]
-    for role_name in roles:
-        logger.info("Creating realm role '%s'...", role_name)
+    for role_name in ["admin", "contributor", "viewer"]:
         resp = client.post(
-            f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/roles",
+            f"{KEYCLOAK_URL}/admin/realms/{realm_name}/roles",
             headers=headers,
             json={"name": role_name},
         )
         if resp.status_code == 409:
-            logger.info("Role '%s' already exists, skipping.", role_name)
+            logger.info("Role '%s' already exists in '%s'.", role_name, realm_name)
         else:
             resp.raise_for_status()
-            logger.info("Role '%s' created.", role_name)
+            logger.info("Role '%s' created in '%s'.", role_name, realm_name)
 
 
 def create_user(
-    client: httpx.Client,
-    token: str,
-    username: str,
-    email: str,
-    first_name: str,
-    last_name: str,
-    password: str,
-    role_name: str,
+    client: httpx.Client, token: str, realm_name: str,
+    username: str, email: str, first_name: str, last_name: str,
+    password: str, role_name: str,
 ) -> None:
-    """Create a user and assign a realm role."""
+    """Create a user and assign a role in a realm."""
     headers = {"Authorization": f"Bearer {token}"}
-    logger.info("Creating user '%s' (%s)...", username, email)
 
-    # Check if user exists
     resp = client.get(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/users",
+        f"{KEYCLOAK_URL}/admin/realms/{realm_name}/users",
         headers=headers,
         params={"username": username, "exact": "true"},
     )
     resp.raise_for_status()
     existing = resp.json()
+
     if existing:
-        logger.info("User '%s' already exists, skipping.", username)
         user_id = existing[0]["id"]
+        logger.info("User '%s' already exists in '%s'.", username, realm_name)
     else:
         resp = client.post(
-            f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/users",
+            f"{KEYCLOAK_URL}/admin/realms/{realm_name}/users",
             headers=headers,
             json={
                 "username": username,
@@ -186,77 +170,57 @@ def create_user(
                 "firstName": first_name,
                 "lastName": last_name,
                 "enabled": True,
-                "credentials": [
-                    {
-                        "type": "password",
-                        "value": password,
-                        "temporary": False,
-                    }
-                ],
+                "emailVerified": True,
+                "credentials": [{"type": "password", "value": password, "temporary": False}],
             },
         )
         resp.raise_for_status()
-        logger.info("User '%s' created.", username)
+        logger.info("User '%s' created in '%s'.", username, realm_name)
 
-        # Fetch user id
         resp = client.get(
-            f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/users",
+            f"{KEYCLOAK_URL}/admin/realms/{realm_name}/users",
             headers=headers,
             params={"username": username, "exact": "true"},
         )
         resp.raise_for_status()
         user_id = resp.json()[0]["id"]
 
-    # Get role representation
+    # Assign role
     resp = client.get(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/roles/{role_name}",
+        f"{KEYCLOAK_URL}/admin/realms/{realm_name}/roles/{role_name}",
         headers=headers,
     )
     resp.raise_for_status()
     role_repr = resp.json()
 
-    # Assign role
-    resp = client.post(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM_NAME}/users/{user_id}"
-        f"/role-mappings/realm",
+    client.post(
+        f"{KEYCLOAK_URL}/admin/realms/{realm_name}/users/{user_id}/role-mappings/realm",
         headers=headers,
         json=[role_repr],
     )
-    if resp.status_code == 204:
-        logger.info("Role '%s' assigned to user '%s'.", role_name, username)
-    else:
-        resp.raise_for_status()
-        logger.info("Role '%s' assigned to user '%s'.", role_name, username)
+    logger.info("Role '%s' assigned to '%s' in '%s'.", role_name, username, realm_name)
 
 
 def main() -> None:
-    """Run the full Keycloak setup."""
-    logger.info("=== Keycloak Setup ===")
+    """Run the full Keycloak setup for all tenant realms."""
+    logger.info("=== Keycloak Multi-Tenant Setup ===")
     with httpx.Client(timeout=30) as http:
         wait_for_keycloak(http)
         token = get_admin_token(http)
-        create_realm(http, token)
-        create_client(http, token)
-        create_realm_roles(http, token)
-        create_user(
-            http, token,
-            username="admin",
-            email="admin@helio.local",
-            first_name="Alex",
-            last_name="Rivera",
-            password="admin123",
-            role_name="admin",
-        )
-        create_user(
-            http, token,
-            username="viewer",
-            email="viewer@helio.local",
-            first_name="Sarah",
-            last_name="Connor",
-            password="viewer123",
-            role_name="viewer",
-        )
+
+        for realm_name, display_name in REALMS:
+            logger.info("--- Setting up realm: %s ---", realm_name)
+            create_realm(http, token, realm_name, display_name)
+            create_client(http, token, realm_name)
+            create_realm_roles(http, token, realm_name)
+
+            for username, email_tpl, first, last, pwd, role in TEST_USERS:
+                email = email_tpl.replace("{realm}", realm_name)
+                create_user(http, token, realm_name, username, email, first, last, pwd, role)
+
     logger.info("=== Keycloak Setup Complete ===")
+    logger.info("Realms created: %s", [r[0] for r in REALMS])
+    logger.info("Test users: admin/admin123, viewer/viewer123 (in each realm)")
 
 
 if __name__ == "__main__":

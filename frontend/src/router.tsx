@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { AuthGuard } from './components/guards/AuthGuard';
+import { RoleGuard } from './components/guards/RoleGuard';
 import { LoginPage } from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { CallbackPage } from './pages/CallbackPage';
@@ -33,21 +34,55 @@ export function AppRouter() {
           </AuthGuard>
         }
       >
+        {/* All roles */}
         <Route path="/templates" element={<TemplateManagementPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/analytics" element={<AnalyticsPage />} />
-        <Route path="/master-data" element={<MasterDataPage />} />
 
-        {/* Template Wizard routes */}
-        <Route path="/templates/new" element={<WizardLayout />}>
+        {/* Admin only */}
+        <Route path="/analytics" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <AnalyticsPage />
+          </RoleGuard>
+        } />
+
+        {/* Admin only */}
+        <Route path="/users" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <UsersPage />
+          </RoleGuard>
+        } />
+        <Route path="/settings" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <SettingsPage />
+          </RoleGuard>
+        } />
+        <Route path="/settings/:tenantId" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <SettingsPage />
+          </RoleGuard>
+        } />
+        <Route path="/master-data" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <MasterDataPage />
+          </RoleGuard>
+        } />
+
+        {/* Template Wizard — admin only */}
+        <Route path="/templates/new" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <WizardLayout />
+          </RoleGuard>
+        }>
           <Route index element={<WizardStep1 />} />
           <Route path="step2" element={<WizardStep2 />} />
           <Route path="step3" element={<WizardStep3 />} />
           <Route path="step4" element={<WizardStep4 />} />
           <Route path="step5" element={<WizardStep5 />} />
         </Route>
-        <Route path="/templates/:id/edit" element={<WizardLayout />}>
+        <Route path="/templates/:id/edit" element={
+          <RoleGuard roles={['system_admin', 'admin']}>
+            <WizardLayout />
+          </RoleGuard>
+        }>
           <Route index element={<WizardStep1 />} />
           <Route path="step2" element={<WizardStep2 />} />
           <Route path="step3" element={<WizardStep3 />} />

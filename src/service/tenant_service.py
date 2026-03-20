@@ -34,6 +34,12 @@ def _to_full_response(tenant: object) -> TenantFullResponse:
         favicon_url=tenant.favicon_url,  # type: ignore[attr-defined]
         font_family=tenant.font_family or "Montserrat",  # type: ignore[attr-defined]
         email_signature=tenant.email_signature,  # type: ignore[attr-defined]
+        defaults=TenantDefaultsResponse(
+            default_currency=tenant.default_currency,  # type: ignore[attr-defined]
+            standard_roi_period=tenant.standard_roi_period,  # type: ignore[attr-defined]
+            min_feasibility_threshold=tenant.min_feasibility_threshold,  # type: ignore[attr-defined]
+            required_ethics_level=tenant.required_ethics_level,  # type: ignore[attr-defined]
+        ),
     )
 
 
@@ -92,11 +98,11 @@ class TenantService:
         self, tenant_id: uuid.UUID, data: UpdateTenantDefaultsRequest,
     ) -> TenantDefaultsResponse:
         """Update tenant defaults."""
+        update_data = data.model_dump(exclude_none=True)
+        tenant = await self._repo.update_defaults(tenant_id, update_data)
         return TenantDefaultsResponse(
-            default_currency=data.default_currency or "USD",
-            standard_roi_period=data.standard_roi_period or "3 Years",
-            min_feasibility_threshold=data.min_feasibility_threshold or 65,
-            required_ethics_level=(
-                data.required_ethics_level or "Level 3 - Enterprise Standard"
-            ),
+            default_currency=tenant.default_currency,
+            standard_roi_period=tenant.standard_roi_period,
+            min_feasibility_threshold=tenant.min_feasibility_threshold,
+            required_ethics_level=tenant.required_ethics_level,
         )

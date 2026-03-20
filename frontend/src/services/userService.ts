@@ -71,3 +71,12 @@ export async function deactivateUser(userId: string): Promise<void> {
     throw new Error('Failed to deactivate user');
   }
 }
+
+export async function deleteUser(userId: string): Promise<void> {
+  const response = await apiFetch(`${API_BASE}/${userId}/permanent`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete user');
+  }
+}

@@ -3,7 +3,7 @@ import logging
 import uuid
 from datetime import datetime
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -44,8 +44,18 @@ async def list_templates(
         count_query = count_query.where(Template.category == category)
     if search:
         pattern = f"%{search}%"
-        query = query.where(Template.name.ilike(pattern))
-        count_query = count_query.where(Template.name.ilike(pattern))
+        # Search by template name or tag
+        tag_subq = (
+            select(TemplateTag.template_id)
+            .where(TemplateTag.tag.ilike(pattern))
+            .correlate(None)
+        )
+        search_filter = or_(
+            Template.name.ilike(pattern),
+            Template.id.in_(tag_subq),
+        )
+        query = query.where(search_filter)
+        count_query = count_query.where(search_filter)
 
     query = query.order_by(Template.updated_at.desc())
     query = query.offset((page - 1) * page_size).limit(page_size)
@@ -108,8 +118,7 @@ async def create_template(
             tag = TemplateTag(template_id=template.id, tag=tag_str)
             session.add(tag)
 
-    await session.commit()
-    await session.refresh(template)
+    await session.flush()
     return template
 
 
@@ -146,8 +155,7 @@ async def update_template_metadata(
             tag = TemplateTag(template_id=template.id, tag=tag_str)
             session.add(tag)
 
-    await session.commit()
-    await session.refresh(template)
+    await session.flush()
     return template
 
 
@@ -172,9 +180,7 @@ async def replace_stages(
         session.add(stage)
         new_stages.append(stage)
 
-    await session.commit()
-    for stage in new_stages:
-        await session.refresh(stage)
+    await session.flush()
     return new_stages
 
 

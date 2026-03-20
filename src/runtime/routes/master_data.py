@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request, UploadFil
 
 from src.runtime.dependencies.auth import get_current_user
 from src.runtime.dependencies.db import get_tenant_session
+from src.repo.analytics_repository import create_audit_log
 from src.service import master_data_service as svc
 from src.types.auth import UserContext
 from src.types.master_data import (
@@ -69,6 +70,13 @@ async def create_value(
     """Create a new value in a category."""
     async with get_tenant_session(request) as session:
         result = await svc.create_value(session, cat_id, body)
+        ip = request.client.host if request.client else None
+        await create_audit_log(
+            session, user_context.user_id, user_context.name,
+            "DATA", "value_created",
+            details=f"Created value '{body.value}' in category {cat_id}",
+            ip_address=ip,
+        )
         await session.commit()
         return result
 
@@ -85,6 +93,13 @@ async def update_value(
         result = await svc.update_value(session, value_id, body)
         if not result:
             raise HTTPException(status_code=404, detail="Value not found")
+        ip = request.client.host if request.client else None
+        await create_audit_log(
+            session, user_context.user_id, user_context.name,
+            "DATA", "value_updated",
+            details=f"Updated value {value_id}",
+            ip_address=ip,
+        )
         await session.commit()
         return result
 
@@ -100,6 +115,13 @@ async def delete_value(
         deleted = await svc.delete_value(session, value_id)
         if not deleted:
             raise HTTPException(status_code=404, detail="Value not found")
+        ip = request.client.host if request.client else None
+        await create_audit_log(
+            session, user_context.user_id, user_context.name,
+            "DATA", "value_deleted",
+            details=f"Deleted value {value_id}",
+            ip_address=ip,
+        )
         await session.commit()
 
 
@@ -113,6 +135,13 @@ async def reorder_values(
     """Reorder values within a category."""
     async with get_tenant_session(request) as session:
         await svc.reorder_values(session, cat_id, body.value_ids)
+        ip = request.client.host if request.client else None
+        await create_audit_log(
+            session, user_context.user_id, user_context.name,
+            "DATA", "values_reordered",
+            details=f"Reordered values in category {cat_id}",
+            ip_address=ip,
+        )
         await session.commit()
         return {"status": "ok"}
 
@@ -138,5 +167,12 @@ async def import_csv(
         )
     async with get_tenant_session(request) as session:
         result = await svc.import_csv(session, cat_id, content)
+        ip = request.client.host if request.client else None
+        await create_audit_log(
+            session, user_context.user_id, user_context.name,
+            "DATA", "csv_imported",
+            details=f"Imported CSV to category {cat_id}: {result.imported} added, {result.skipped} skipped",
+            ip_address=ip,
+        )
         await session.commit()
         return result

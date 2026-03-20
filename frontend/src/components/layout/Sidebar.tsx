@@ -1,19 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import type { UserRole } from '../../types/auth';
 
 interface NavItem {
   path: string;
   label: string;
   icon: string;
+  roles: UserRole[]; // which roles can see this item
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { path: '/templates', label: 'Template Management', icon: 'layers' },
-  { path: '/users', label: 'User Management', icon: 'group' },
-  { path: '/settings', label: 'Tenant Settings', icon: 'settings' },
-  { path: '/analytics', label: 'Analytics & Audit Logs', icon: 'analytics' },
-  { path: '/master-data', label: 'Master Data Management', icon: 'database' },
+  {
+    path: '/templates',
+    label: 'Template Management',
+    icon: 'layers',
+    roles: ['system_admin', 'admin', 'contributor', 'viewer'],
+  },
+  {
+    path: '/users',
+    label: 'User Management',
+    icon: 'group',
+    roles: ['system_admin', 'admin'],
+  },
+  {
+    path: '/settings',
+    label: 'Tenant Settings',
+    icon: 'settings',
+    roles: ['system_admin', 'admin'],
+  },
+  {
+    path: '/analytics',
+    label: 'Analytics & Audit Logs',
+    icon: 'analytics',
+    roles: ['system_admin', 'admin'],
+  },
+  {
+    path: '/master-data',
+    label: 'Master Data Management',
+    icon: 'database',
+    roles: ['system_admin', 'admin'],
+  },
 ];
 
 const STORAGE_KEY = 'sidebar_collapsed';
@@ -50,6 +77,12 @@ export function Sidebar() {
   }, [collapsed]);
 
   const primaryRole = user?.roles[0] || 'viewer';
+  const userRoles = user?.roles || [];
+
+  // Filter nav items by user's roles
+  const visibleItems = NAV_ITEMS.filter((item) =>
+    item.roles.some((r) => userRoles.includes(r))
+  );
 
   return (
     <aside
@@ -82,7 +115,7 @@ export function Sidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 py-2 overflow-y-auto">
-        {NAV_ITEMS.map((item) => {
+        {visibleItems.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
           return (
             <NavLink

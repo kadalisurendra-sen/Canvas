@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 class KeycloakClient:
     """Client for Keycloak Admin REST API and OIDC endpoints."""
 
-    def __init__(self) -> None:
+    def __init__(self, realm_override: str = "") -> None:
         """Initialize Keycloak client with settings."""
         settings = get_settings()
         self._base_url = settings.KEYCLOAK_URL.rstrip("/")
-        self._realm = settings.KEYCLOAK_REALM
+        self._realm = realm_override or settings.KEYCLOAK_REALM
         self._client_id = settings.KEYCLOAK_CLIENT_ID
         self._client_secret = settings.KEYCLOAK_CLIENT_SECRET
 
@@ -92,17 +92,47 @@ class KeycloakClient:
         self, username: str, password: str
     ) -> dict[str, str]:
         """Authenticate user with direct access grant (password)."""
+        data: dict[str, str] = {
+            "grant_type": "password",
+            "client_id": self._client_id,
+            "username": username,
+            "password": password,
+            "scope": "openid profile email",
+        }
+        # Include client_secret if configured (required for confidential clients)
+        if self._client_secret:
+            data["client_secret"] = self._client_secret
+
+        logger.info(
+            "password_grant: realm=%s, client=%s, user=%s, token_url=%s",
+            self._realm, self._client_id, username, self.token_url,
+        )
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                self.token_url,
-                data={
-                    "grant_type": "password",
-                    "client_id": self._client_id,
-                    "username": username,
-                    "password": password,
-                    "scope": "openid profile email",
-                },
-                timeout=10.0,
+                self.token_url, data=data, timeout=10.0,
+            )
+            if response.status_code != 200:
+                logger.error(
+                    "password_grant failed: status=%s, body=%s",
+                    response.status_code, response.text,
+                )
+            response.raise_for_status()
+            result: dict[str, str] = response.json()
+            return result
+
+    async def refresh_grant(self, refresh_token: str) -> dict[str, str]:
+        """Exchange a refresh token for new access + refresh tokens."""
+        data: dict[str, str] = {
+            "grant_type": "refresh_token",
+            "client_id": self._client_id,
+            "refresh_token": refresh_token,
+        }
+        if self._client_secret:
+            data["client_secret"] = self._client_secret
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.token_url, data=data, timeout=10.0,
             )
             response.raise_for_status()
             result: dict[str, str] = response.json()

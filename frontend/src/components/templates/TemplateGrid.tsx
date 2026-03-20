@@ -4,8 +4,8 @@ import type { TemplateListItem } from '../../types/template';
 
 interface TemplateGridProps {
   templates: TemplateListItem[];
-  onEdit: (id: string) => void;
-  onDelete: (template: TemplateListItem) => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (template: TemplateListItem) => void;
 }
 
 export function TemplateGrid({ templates, onEdit, onDelete }: TemplateGridProps) {

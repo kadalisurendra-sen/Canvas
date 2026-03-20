@@ -45,11 +45,12 @@ export function ImportModal({ onImport, onClose }: ImportModalProps) {
   const handleSubmit = async () => {
     if (!file) return;
     setLoading(true);
+    setError('');
     try {
       const res = await onImport(file);
       setResult(res);
-    } catch {
-      setError('Import failed');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Import failed. Please check the file format and try again.');
     } finally {
       setLoading(false);
     }

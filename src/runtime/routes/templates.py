@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 
 from src.runtime.dependencies.auth import get_current_user
 from src.runtime.dependencies.db import get_tenant_session
+from src.repo.analytics_repository import create_audit_log
 from src.service.template_service import (
     TemplateNotFoundError,
     TemplateServiceError,
@@ -59,7 +60,16 @@ async def create_template_route(
             tpl = await create_new_template(
                 session, data, user_context.user_id,
             )
-            return {"id": str(tpl.id), "status": "draft"}
+            tpl_id = str(tpl.id)
+            # Audit log in same session before commit
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "template_created",
+                details=f"Created template '{data.name}'",
+                ip_address=ip,
+            )
+        return {"id": tpl_id, "status": "draft"}
     except TemplateServiceError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -157,6 +167,13 @@ async def update_template_route(
     try:
         async with get_tenant_session(request) as session:
             tpl = await update_template(session, template_id, data)
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "template_updated",
+                details=f"Updated template {template_id}",
+                ip_address=ip,
+            )
             return {"id": str(tpl.id), "status": tpl.status}
     except TemplateNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -172,6 +189,13 @@ async def delete_template_route(
     try:
         async with get_tenant_session(request) as session:
             await remove_template(session, template_id)
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "template_deleted",
+                details=f"Deleted template {template_id}",
+                ip_address=ip,
+            )
     except TemplateNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -196,6 +220,13 @@ async def clone_template_route(
             )
             tpl = await create_new_template(
                 session, clone_data, user_context.user_id,
+            )
+            ip = request.client.host if request.client else None
+            await create_audit_log(
+                session, user_context.user_id, user_context.name,
+                "TEMPLATE", "template_cloned",
+                details=f"Cloned template {template_id} as '{clone_data.name}'",
+                ip_address=ip,
             )
             return {"id": str(tpl.id), "status": "draft"}
     except TemplateNotFoundError as exc:

@@ -1,6 +1,7 @@
-"""Tenant session manager — dynamic async session factory per tenant DB."""
+"""Tenant session manager — schema-per-tenant using search_path."""
 import logging
 
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from src.config.settings import get_settings
@@ -9,46 +10,44 @@ logger = logging.getLogger(__name__)
 
 
 class TenantSessionManager:
-    """Manages per-tenant database connections with connection pooling."""
+    """Manages tenant-scoped sessions via PostgreSQL schema search_path."""
 
     def __init__(self) -> None:
-        """Initialize the session manager with empty caches."""
-        self._engines: dict[str, "create_async_engine"] = {}
-        self._session_factories: dict[
-            str, async_sessionmaker[AsyncSession]
-        ] = {}
+        """Initialize with a single shared engine."""
+        self._engine = None
+        self._base_factory: async_sessionmaker[AsyncSession] | None = None
 
-    def _build_dsn(
-        self, db_host: str, db_port: int, db_name: str
-    ) -> str:
-        """Build an async PostgreSQL connection string."""
-        settings = get_settings()
-        return (
-            f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
-            f"{db_host}:{db_port}/{db_name}"
-        )
+    def _get_engine(self):
+        """Get or create the shared async engine."""
+        if self._engine is None:
+            settings = get_settings()
+            self._engine = create_async_engine(
+                settings.DATABASE_URL,
+                pool_pre_ping=True,
+                pool_size=20,
+                max_overflow=30,
+            )
+            self._base_factory = async_sessionmaker(
+                self._engine, class_=AsyncSession, expire_on_commit=False
+            )
+        return self._engine
 
-    def get_session_factory(
-        self, db_host: str, db_port: int, db_name: str
-    ) -> async_sessionmaker[AsyncSession]:
-        """Get or create a session factory for the given tenant DB."""
-        dsn = self._build_dsn(db_host, db_port, db_name)
-        if dsn not in self._session_factories:
-            logger.info("Creating engine for tenant DB: %s", db_name)
-            engine = create_async_engine(
-                dsn, pool_pre_ping=True, pool_size=5, max_overflow=10
-            )
-            factory = async_sessionmaker(
-                engine, class_=AsyncSession, expire_on_commit=False
-            )
-            self._engines[dsn] = engine
-            self._session_factories[dsn] = factory
-        return self._session_factories[dsn]
+    def get_session_factory(self) -> async_sessionmaker[AsyncSession]:
+        """Get the base session factory (caller sets search_path)."""
+        self._get_engine()
+        return self._base_factory
+
+    async def get_tenant_session(self, schema_name: str) -> AsyncSession:
+        """Create a session scoped to the given tenant schema."""
+        factory = self.get_session_factory()
+        session = factory()
+        await session.execute(text(f"SET search_path TO {schema_name}, public"))
+        return session
 
     async def close_all(self) -> None:
-        """Dispose of all cached engines."""
-        for dsn, engine in self._engines.items():
-            logger.info("Disposing engine: %s", dsn[:50])
-            await engine.dispose()
-        self._engines.clear()
-        self._session_factories.clear()
+        """Dispose of the shared engine."""
+        if self._engine:
+            logger.info("Disposing shared engine")
+            await self._engine.dispose()
+            self._engine = None
+            self._base_factory = None

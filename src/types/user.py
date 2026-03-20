@@ -27,13 +27,19 @@ class UserListResponse(BaseSchema):
     page: int
     page_size: int
     total_pages: int
+    active_count: int = 0
+    deactivated_count: int = 0
 
 
 class InviteUserRequest(BaseModel):
     """Request body for inviting a user."""
 
-    email: EmailStr = Field(..., min_length=3, max_length=255)
+    email: str = Field(..., min_length=3, max_length=255)
     role: UserRole = UserRole.VIEWER
+    username: str = Field("", min_length=0, max_length=100)
+    password: str = Field("", min_length=0, max_length=100)
+    first_name: str = Field("", min_length=0, max_length=100)
+    last_name: str = Field("", min_length=0, max_length=100)
 
 
 class UpdateUserRequest(BaseModel):

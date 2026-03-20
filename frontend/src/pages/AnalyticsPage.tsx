@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { MetricCards } from '../components/analytics/MetricCards';
 import { StageChart } from '../components/analytics/StageChart';
 import { TemplateUsageChart } from '../components/analytics/TemplateUsageChart';
@@ -12,71 +13,41 @@ import {
   fetchTopUsers as apiFetchTopUsers,
   fetchAuditLogs,
 } from '../services/analyticsService';
+import { apiFetch } from '../services/api';
 
-/* Mock dashboard data matching the Stitch reference */
-const MOCK_DASHBOARD: DashboardData = {
-  metrics: [
-    { label: 'Total Projects', value: '24', change: '+3', subtitle: 'v. last month' },
-    { label: 'Total Use Cases', value: '156', change: '+12', subtitle: 'v. last month' },
-    { label: 'Active Evaluations', value: '38', change: null, subtitle: 'Currently in progress' },
-    { label: 'Completed Evaluations', value: '92', change: null, subtitle: 'Historical total' },
-    { label: 'Average ROI', value: '127%', change: null, subtitle: 'Projected overall' },
-  ],
-  stage_distribution: [
-    { stage: 'Desirable', count: 45, percentage: 80 },
-    { stage: 'Feasible', count: 38, percentage: 65 },
-    { stage: 'Viable', count: 32, percentage: 55 },
-    { stage: 'Prioritized', count: 25, percentage: 45 },
-    { stage: 'Not Started', count: 16, percentage: 25 },
-  ],
-  template_usage: [
-    { category: 'AI/ML', percentage: 45, color: '#5F2CFF' },
-    { category: 'RPA', percentage: 25, color: '#02F576' },
-    { category: 'Agentic AI', percentage: 15, color: '#8A5EFF' },
-    { category: 'Data Science', percentage: 10, color: '#5EEAD4' },
-    { category: 'Custom', percentage: 5, color: '#99F6E4' },
-  ],
-  evaluations_timeline: [
-    { month: 'Jan', count: 12 }, { month: 'Feb', count: 18 },
-    { month: 'Mar', count: 25 }, { month: 'Apr', count: 30 },
-    { month: 'May', count: 42 }, { month: 'Jun', count: 55 },
-  ],
+const EMPTY_DASHBOARD: DashboardData = {
+  metrics: [],
+  stage_distribution: [],
+  template_usage: [],
+  evaluations_timeline: [],
 };
 
-const MOCK_TOP_USERS: TopUser[] = [
-  { name: 'Sarah Connor', avatar_url: null, evaluations: 28, last_active: 'Today' },
-  { name: 'James Miller', avatar_url: null, evaluations: 24, last_active: '2h ago' },
-  { name: 'Elena R.', avatar_url: null, evaluations: 19, last_active: 'Yesterday' },
-  { name: 'Mark T.', avatar_url: null, evaluations: 15, last_active: '3d ago' },
-];
-
-const MOCK_LOGS: PaginatedAuditLogs = {
-  items: [
-    { id: 'al-1', created_at: '2026-03-17T10:30:00Z', user_name: 'Alex Rivera', event_type: 'MANAGEMENT', action: 'config_change', details: '{"setting": "timezone", "old": "UTC", "new": "EST"}', ip_address: '192.168.1.10' },
-    { id: 'al-2', created_at: '2026-03-17T09:15:00Z', user_name: 'Sarah Connor', event_type: 'SECURITY', action: 'login', details: 'Successful login via SSO', ip_address: '10.0.0.1' },
-    { id: 'al-3', created_at: '2026-03-16T16:45:00Z', user_name: null, event_type: 'SYSTEM', action: 'backup_complete', details: 'Automated daily backup completed', ip_address: null },
-    { id: 'al-4', created_at: '2026-03-16T14:20:00Z', user_name: 'James Miller', event_type: 'MANAGEMENT', action: 'data_export', details: 'Exported analytics report', ip_address: '192.168.1.22' },
-    { id: 'al-5', created_at: '2026-03-15T11:00:00Z', user_name: 'Elena Rodriguez', event_type: 'SECURITY', action: 'logout', details: 'User session ended', ip_address: '10.0.0.5' },
-  ],
-  total: 5, page: 1, page_size: 10,
+const EMPTY_LOGS: PaginatedAuditLogs = {
+  items: [],
+  total: 0,
+  page: 1,
+  page_size: 10,
 };
 
 export function AnalyticsPage() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'audit'>('dashboard');
   const [dateRange] = useState('Last 30 Days');
-  const [dashboard, setDashboard] = useState<DashboardData>(MOCK_DASHBOARD);
-  const [topUsers, setTopUsers] = useState<TopUser[]>(MOCK_TOP_USERS);
-  const [auditLogs, setAuditLogs] = useState<PaginatedAuditLogs>(MOCK_LOGS);
+  const [dashboard, setDashboard] = useState<DashboardData>(EMPTY_DASHBOARD);
+  const [topUsers, setTopUsers] = useState<TopUser[]>([]);
+  const [auditLogs, setAuditLogs] = useState<PaginatedAuditLogs>(EMPTY_LOGS);
   const [auditPage, setAuditPage] = useState(1);
   const [auditFilters, setAuditFilters] = useState<AuditFilters>({});
+  const [loading, setLoading] = useState(true);
+
+  const isSuperAdmin = user?.roles.includes('system_admin');
 
   useEffect(() => {
-    fetchDashboard()
-      .then(setDashboard)
-      .catch(() => { /* use mock */ });
-    apiFetchTopUsers()
-      .then(setTopUsers)
-      .catch(() => { /* use mock */ });
+    setLoading(true);
+    Promise.all([
+      fetchDashboard().then(setDashboard).catch(() => {}),
+      apiFetchTopUsers().then(setTopUsers).catch(() => {}),
+    ]).finally(() => setLoading(false));
   }, []);
 
   const loadAuditLogs = useCallback(async (filters: AuditFilters, page: number) => {
@@ -88,7 +59,7 @@ export function AnalyticsPage() {
       });
       setAuditLogs(result);
     } catch {
-      /* keep mock data */
+      /* keep empty */
     }
   }, []);
 
@@ -105,12 +76,32 @@ export function AnalyticsPage() {
     setAuditPage(page);
   }, []);
 
-  const handleExportReport = useCallback(() => {
-    window.open('/api/v1/analytics/export', '_blank');
+  const handleExportReport = useCallback(async () => {
+    try {
+      const res = await apiFetch('/api/v1/analytics/export');
+      if (!res.ok) return;
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `analytics_report_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch { /* download failed */ }
   }, []);
 
-  const handleExportAudit = useCallback(() => {
-    window.open('/api/v1/analytics/audit-logs/export', '_blank');
+  const handleExportAudit = useCallback(async () => {
+    try {
+      const res = await apiFetch('/api/v1/analytics/audit-logs/export');
+      if (!res.ok) return;
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `audit_log_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch { /* download failed */ }
   }, []);
 
   return (
@@ -118,8 +109,14 @@ export function AnalyticsPage() {
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex justify-between items-end">
           <div>
-            <h2 className="text-[32px] font-bold tracking-tight text-slate-900">Analytics &amp; Audit Logs</h2>
-            <p className="text-slate-500 mt-1">Monitor platform engagement and system integrity.</p>
+            <h2 className="text-[32px] font-bold tracking-tight text-slate-900">
+              {isSuperAdmin ? 'Platform Analytics' : 'Analytics & Audit Logs'}
+            </h2>
+            <p className="text-slate-500 mt-1">
+              {isSuperAdmin
+                ? 'Platform-wide metrics across all tenants.'
+                : 'Monitor tenant engagement and system integrity.'}
+            </p>
           </div>
           <div className="flex gap-2">
             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
@@ -156,22 +153,50 @@ export function AnalyticsPage() {
                 : 'border-transparent text-slate-500 font-medium hover:text-slate-800'
             }`}
           >
-            Audit Log
+            {isSuperAdmin ? 'Platform Audit Log' : 'Audit Log'}
           </button>
         </div>
       </div>
 
-      {activeTab === 'dashboard' ? (
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <span className="text-slate-400">Loading analytics...</span>
+        </div>
+      ) : activeTab === 'dashboard' ? (
         <>
           <MetricCards metrics={dashboard.metrics} />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <StageChart data={dashboard.stage_distribution} />
-            <TemplateUsageChart data={dashboard.template_usage} />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <TimelineChart data={dashboard.evaluations_timeline} />
-            <TopUsersTable users={topUsers} />
-          </div>
+          {dashboard.stage_distribution.length > 0 && dashboard.template_usage.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <StageChart data={dashboard.stage_distribution} />
+              <TemplateUsageChart data={dashboard.template_usage} />
+            </div>
+          )}
+          {dashboard.stage_distribution.length === 0 && dashboard.template_usage.length > 0 && (
+            <div className="mb-8">
+              <TemplateUsageChart data={dashboard.template_usage} />
+            </div>
+          )}
+          {dashboard.stage_distribution.length > 0 && dashboard.template_usage.length === 0 && (
+            <div className="mb-8">
+              <StageChart data={dashboard.stage_distribution} />
+            </div>
+          )}
+          {!isSuperAdmin && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {dashboard.evaluations_timeline.length > 0 && (
+                <TimelineChart data={dashboard.evaluations_timeline} />
+              )}
+              {topUsers.length > 0 && (
+                <TopUsersTable users={topUsers} />
+              )}
+            </div>
+          )}
+          {dashboard.metrics.length === 0 && (
+            <div className="text-center py-20 text-slate-400">
+              <span className="material-symbols-outlined text-4xl mb-2 block">analytics</span>
+              No data available yet. Start creating templates to see analytics.
+            </div>
+          )}
         </>
       ) : (
         <AuditLogTab
